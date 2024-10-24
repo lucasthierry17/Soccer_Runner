@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cno840nyxxpw2"]
+[gd_scene load_steps=9 format=3 uid="uid://cno840nyxxpw2"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_rjl68"]
 [ext_resource type="PackedScene" uid="uid://odgtnpypykcy" path="res://terrain_controller.tscn" id="1_wvryj"]
+[ext_resource type="Script" path="res://camera_3d.gd" id="2_axcet"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_om122"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -30,10 +31,11 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 shadow_enabled = true
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.1, 2.08165e-12)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 2.08165e-12, 1.1, 2.08165e-12)
 script = ExtResource("1_rjl68")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_ofssd")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
@@ -44,5 +46,6 @@ mesh = SubResource("CapsuleMesh_187ag")
 transform = Transform3D(1, 0, 0, 0, 0.926962, 0.375156, 0, -0.375156, 0.926962, 0, 1.98366, 0.968483)
 fov = 104.7
 far = 60.0
+script = ExtResource("2_axcet")
 
 [node name="TerrainController" parent="." instance=ExtResource("1_wvryj")]
