@@ -8,14 +8,29 @@ var terrain_belt: Array[MeshInstance3D] = []
 @export var terrain_velocity: float = 10.0  # Should be faster than player's speed to simulate movement
 @export var num_terrain_blocks = 3
 @export var lane_width: float = 1.0 # Define the lane of each lane
+## Delay before blocks appear (in seconds)
+@export var start_delay: float = 3.0
 @export_dir var terrian_blocks_path = "res://terrain_blocks"
+var can_move: bool = false
 
 func _ready() -> void:
 	_load_terrain_scenes(terrian_blocks_path)
 	_init_blocks(num_terrain_blocks)
+	# Create a timer to delay the start of the movement
+	var delay_timer = Timer.new()
+	delay_timer.wait_time = start_delay
+	delay_timer.one_shot = true
+	delay_timer.connect("timeout", Callable(self, "_on_delay_finished"))
+	add_child(delay_timer)
+	delay_timer.start()
 
 func _physics_process(delta: float) -> void:
-	_progress_terrain(delta)
+	if can_move:
+		_progress_terrain(delta)
+
+## Called when the timer finishes and the terrain should start moving
+func _on_delay_finished() -> void:
+	can_move = true
 
 func _init_blocks(number_of_blocks: int) -> void:
 	for block_index in range(number_of_blocks):
