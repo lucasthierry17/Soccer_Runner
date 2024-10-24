@@ -2,6 +2,9 @@ extends CharacterBody3D
 
 # Player's side movement speed (left/right)
 const SIDE_SPEED = 500.0
+const JUMP_FORCE = 15.0  # Jump force
+const GRAVITY = 50.0  # Gravity strength
+
 # Lane width
 @export var lane_width: float = 1.0
 # Max lane boundaries (0 is middle, -1 is left, 1 is right)
@@ -23,16 +26,22 @@ func _physics_process(_delta: float) -> void:
 		current_lane += 1
 		update_position()
 
-	# Side movement
-	move_and_slide()
+	# Apply gravity when not on the floor
+	if not is_on_floor():
+		velocity.y -= GRAVITY * _delta  # Apply gravity while in the air
+	else:
+		# Reset Y velocity when on the floor and prepare for jump
+		velocity.y = 0
 
-	# Collision detection (optional)
-	var collision = get_last_slide_collision()
-	if collision:
-		print("Collided with: ", collision.get_collider())
-		get_tree().quit()
+		# Handle jump input when on the floor
+		if Input.is_action_just_pressed("ui_accept"):  # "ui_accept" is the default for space
+			velocity.y = JUMP_FORCE  # Apply jump force
+
+	# Move the player using built-in velocity
+	move_and_slide()
 
 # Function to update the player's position based on the current lane
 func update_position() -> void:
 	var target_x_position = current_lane * lane_width
-	position.x = move_toward(position.x, target_x_position, SIDE_SPEED * get_process_delta_time())
+	# Move smoothly towards the target lane
+	position.x = move_toward(position.x, target_x_position, SIDE_SPEED * get_physics_process_delta_time())
