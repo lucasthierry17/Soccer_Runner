@@ -17,9 +17,12 @@ var terrain_belt: Array[MeshInstance3D] = []
 ## Path to directory holding the terrain block scenes
 @export_dir var terrain_blocks_path = "res://terrain_blocks"
 ## Distance at which blocks will initially spawn (further away from the player)
-@export var spawn_distance: float = 200.0
+@export var spawn_distance: float = 50.0
 ## Delay before blocks appear (in seconds)
 @export var start_delay: float = 3.0
+## Flag to indicate if movement can start
+var can_move: bool = false
+
 
 func _ready() -> void:
 	_load_terrain_scenes(terrain_blocks_path)
@@ -38,22 +41,24 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	# Only move the blocks if there's something in the terrain belt (after initialization)
-	if terrain_belt.size() > 0 and start_delay <= 0.0:
+	if can_move:
 		_progress_terrain(delta)
 	
 
 ## Called when the timer finishes and the terrain should start moving
 func _on_delay_finished() -> void:
-	start_delay = 0.0  # Set start_delay to 0 to indicate the terrain should now move
+	can_move = true
+	#start_delay = 0.0  # Set start_delay to 0 to indicate the terrain should now move
 
 
 func _init_blocks(number_of_blocks: int) -> void:
 	for block_index in number_of_blocks:
 		var block = TerrainBlocks.pick_random().instantiate()
 		if block_index == 0:
-			block.position.z = block.mesh.size.y/2
+			block.position.z = spawn_distance
 		else:
-			_append_to_far_edge(terrain_belt[block_index-1], block)
+			_append_to_far_edge(terrain_belt[block_index - 1], block)
+			#_append_to_far_edge(terrain_belt[block_index-1], block)
 		add_child(block)
 		terrain_belt.append(block)
 
