@@ -15,50 +15,70 @@ var terrain_belt: Array[MeshInstance3D] = []
 ## The number of blocks to keep rendered to the viewport
 @export var num_terrain_blocks = 4
 ## Path to directory holding the terrain block scenes
-@export_dir var terrian_blocks_path = "res://terrain_blocks"
-
+@export_dir var terrain_blocks_path = "res://terrain_blocks"
+## Distance at which blocks will initially spawn (further away from the player)
+@export var spawn_distance: float = 200.0
+## Delay before blocks appear (in seconds)
+@export var start_delay: float = 3.0
 
 func _ready() -> void:
-    _load_terrain_scenes(terrian_blocks_path)
-    _init_blocks(num_terrain_blocks)
+	_load_terrain_scenes(terrain_blocks_path)
+	
+	# Initialize the blocks further away, but without moving them
+	_init_blocks(num_terrain_blocks)
+	
+	# Create a timer to delay the start of the movement
+	var delay_timer = Timer.new()
+	delay_timer.wait_time = start_delay
+	delay_timer.one_shot = true
+	delay_timer.connect("timeout", Callable(self, "_on_delay_finished"))
+	add_child(delay_timer)
+	delay_timer.start()
 
 
 func _physics_process(delta: float) -> void:
-    _progress_terrain(delta)
+	# Only move the blocks if there's something in the terrain belt (after initialization)
+	if terrain_belt.size() > 0 and start_delay <= 0.0:
+		_progress_terrain(delta)
+	
+
+## Called when the timer finishes and the terrain should start moving
+func _on_delay_finished() -> void:
+	start_delay = 0.0  # Set start_delay to 0 to indicate the terrain should now move
 
 
 func _init_blocks(number_of_blocks: int) -> void:
-    for block_index in number_of_blocks:
-        var block = TerrainBlocks.pick_random().instantiate()
-        if block_index == 0:
-            block.position.z = block.mesh.size.y/2
-        else:
-            _append_to_far_edge(terrain_belt[block_index-1], block)
-        add_child(block)
-        terrain_belt.append(block)
+	for block_index in number_of_blocks:
+		var block = TerrainBlocks.pick_random().instantiate()
+		if block_index == 0:
+			block.position.z = block.mesh.size.y/2
+		else:
+			_append_to_far_edge(terrain_belt[block_index-1], block)
+		add_child(block)
+		terrain_belt.append(block)
 
 
 func _progress_terrain(delta: float) -> void:
-    for block in terrain_belt:
-        block.position.z += terrain_velocity * delta
+	for block in terrain_belt:
+		block.position.z += terrain_velocity * delta
 
-    if terrain_belt[0].position.z >= terrain_belt[0].mesh.size.y/2:
-        var last_terrain = terrain_belt[-1]
-        var first_terrain = terrain_belt.pop_front()
+	if terrain_belt[0].position.z >= terrain_belt[0].mesh.size.y/2:
+		var last_terrain = terrain_belt[-1]
+		var first_terrain = terrain_belt.pop_front()
 
-        var block = TerrainBlocks.pick_random().instantiate()
-        _append_to_far_edge(last_terrain, block)
-        add_child(block)
-        terrain_belt.append(block)
-        first_terrain.queue_free()
+		var block = TerrainBlocks.pick_random().instantiate()
+		_append_to_far_edge(last_terrain, block)
+		add_child(block)
+		terrain_belt.append(block)
+		first_terrain.queue_free()
 
 
 func _append_to_far_edge(target_block: MeshInstance3D, appending_block: MeshInstance3D) -> void:
-    appending_block.position.z = target_block.position.z - target_block.mesh.size.y/2 - appending_block.mesh.size.y/2
+	appending_block.position.z = target_block.position.z - target_block.mesh.size.y/2 - appending_block.mesh.size.y/2
 
 
 func _load_terrain_scenes(target_path: String) -> void:
-    var dir = DirAccess.open(target_path)
-    for scene_path in dir.get_files():
-        print("Loading terrian block scene: " + target_path + "/" + scene_path)
-        TerrainBlocks.append(load(target_path + "/" + scene_path))
+	var dir = DirAccess.open(target_path)
+	for scene_path in dir.get_files():
+		print("Loading terrian block scene: " + target_path + "/" + scene_path)
+		TerrainBlocks.append(load(target_path + "/" + scene_path))
