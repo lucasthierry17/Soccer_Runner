@@ -1,4 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c44ud563ycry8"]
+[gd_scene load_steps=9 format=3 uid="uid://c44ud563ycry8"]
+
+[ext_resource type="Texture2D" uid="uid://4lygicwd52dw" path="res://wiese_3.png" id="1_pubqh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hwdj6"]
+albedo_texture = ExtResource("1_pubqh")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_qw1vn"]
 size = Vector2(100, 20)
@@ -16,6 +21,7 @@ data = PackedVector3Array(50, 0, 10, -50, 0, 10, 50, 0, -10, -50, 0, 10, -50, 0,
 
 [node name="TerrainBlock_1" type="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, -10)
+material_override = SubResource("StandardMaterial3D_hwdj6")
 mesh = SubResource("PlaneMesh_qw1vn")
 
 [node name="Block_0" type="StaticBody3D" parent="."]
