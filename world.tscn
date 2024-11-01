@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://player.gd" id="1_rjl68"]
 [ext_resource type="PackedScene" uid="uid://odgtnpypykcy" path="res://terrain_controller.tscn" id="1_wvryj"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_axcet"]
-[ext_resource type="Texture2D" uid="uid://bntcq5f7ydys0" path="res://docs/5205447.jpg" id="4_3t6g1"]
+[ext_resource type="Texture2D" uid="uid://dy20xppvhjqw7" path="res://docs/5205447.jpg" id="4_3t6g1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_om122"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
