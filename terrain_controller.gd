@@ -13,6 +13,12 @@ var terrain_belt: Array[MeshInstance3D] = []
 @export_dir var terrian_blocks_path = "res://terrain_blocks"
 var can_move: bool = false
 
+@export var left_wall: StaticBody3D  # Reference the left wall in the scene
+@export var right_wall: StaticBody3D  # Reference the right wall in the scene
+
+@export var player: Node3D
+
+
 func _ready() -> void:
 	_load_terrain_scenes(terrian_blocks_path)
 	_init_blocks(num_terrain_blocks)
@@ -27,6 +33,13 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if can_move:
 		_progress_terrain(delta)
+		
+	var player_z = player.position.z
+	
+	# Set the walls to the player's z position
+	left_wall.position = Vector3(-2 * lane_width, left_wall.position.y, player_z)
+	right_wall.position = Vector3(2 * lane_width, right_wall.position.y, player_z)
+
 
 ## Called when the timer finishes and the terrain should start moving
 func _on_delay_finished() -> void:
@@ -42,10 +55,11 @@ func _init_blocks(number_of_blocks: int) -> void:
 		add_child(block)
 		terrain_belt.append(block)
 
+
 func _progress_terrain(delta: float) -> void:
 	for block in terrain_belt:
 		block.position.z += terrain_velocity * delta
-
+		
 	# If the first block has moved far enough, replace it
 	if terrain_belt[0].position.z >= terrain_belt[0].get_mesh().get_size().y/2:
 		var last_terrain = terrain_belt[-1]
