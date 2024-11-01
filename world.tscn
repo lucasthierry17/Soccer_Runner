@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://cno840nyxxpw2"]
+[gd_scene load_steps=16 format=3 uid="uid://cno840nyxxpw2"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_rjl68"]
 [ext_resource type="PackedScene" uid="uid://odgtnpypykcy" path="res://terrain_controller.tscn" id="1_wvryj"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_axcet"]
+[ext_resource type="Texture2D" uid="uid://bntcq5f7ydys0" path="res://docs/5205447.jpg" id="4_3t6g1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_om122"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -24,13 +25,21 @@ glow_enabled = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_aid44"]
 size = Vector3(1, 2.86023, 7.75854)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jh7pp"]
+albedo_texture = ExtResource("4_3t6g1")
+
 [sub_resource type="BoxMesh" id="BoxMesh_giyni"]
+material = SubResource("StandardMaterial3D_jh7pp")
 size = Vector3(100, 10, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_olyog"]
 size = Vector3(1, 2.85175, 7.80981)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_htwif"]
+albedo_texture = ExtResource("4_3t6g1")
+
 [sub_resource type="BoxMesh" id="BoxMesh_j3f3o"]
+material = SubResource("StandardMaterial3D_htwif")
 size = Vector3(100, 10, 1)
 
 [node name="World" type="Node3D"]
