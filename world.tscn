@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cno840nyxxpw2"]
+[gd_scene load_steps=13 format=3 uid="uid://cno840nyxxpw2"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_rjl68"]
 [ext_resource type="PackedScene" uid="uid://odgtnpypykcy" path="res://terrain_controller.tscn" id="1_wvryj"]
@@ -21,6 +21,18 @@ glow_enabled = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_187ag"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_aid44"]
+size = Vector3(1, 2.86023, 7.75854)
+
+[sub_resource type="BoxMesh" id="BoxMesh_giyni"]
+size = Vector3(100, 10, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_olyog"]
+size = Vector3(1, 2.85175, 7.80981)
+
+[sub_resource type="BoxMesh" id="BoxMesh_j3f3o"]
+size = Vector3(100, 10, 1)
+
 [node name="World" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -42,10 +54,33 @@ shape = SubResource("CapsuleShape3D_ofssd")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.1, 2.08165e-12)
 mesh = SubResource("CapsuleMesh_187ag")
 
-[node name="TerrainController" parent="." instance=ExtResource("1_wvryj")]
+[node name="TerrainController" parent="." node_paths=PackedStringArray("left_wall", "right_wall", "player") instance=ExtResource("1_wvryj")]
+left_wall = NodePath("../LeftWall")
+right_wall = NodePath("../RightWall")
+player = NodePath("../Player")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.926962, 0.375156, 0, -0.375156, 0.926962, 2.08165e-12, 2.09183, 0.484241)
 fov = 104.7
 far = 60.0
 script = ExtResource("2_axcet")
+
+[node name="LeftWall" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeftWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.930115, 1.9884)
+shape = SubResource("BoxShape3D_aid44")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LeftWall"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_giyni")
+
+[node name="RightWall" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RightWall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925873, 2.0199)
+shape = SubResource("BoxShape3D_olyog")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RightWall"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_j3f3o")
