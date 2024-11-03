@@ -1,9 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://cno840nyxxpw2"]
+[gd_scene load_steps=18 format=3 uid="uid://cno840nyxxpw2"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_rjl68"]
 [ext_resource type="PackedScene" uid="uid://odgtnpypykcy" path="res://terrain_controller.tscn" id="1_wvryj"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_axcet"]
 [ext_resource type="Texture2D" uid="uid://dy20xppvhjqw7" path="res://docs/5205447.jpg" id="4_3t6g1"]
+[ext_resource type="PackedScene" uid="uid://bq7y8q2unfudu" path="res://stop_watch.tscn" id="5_g7nri"]
+[ext_resource type="Script" path="res://start_timer.gd" id="6_nwaes"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_om122"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -93,3 +95,26 @@ shape = SubResource("BoxShape3D_olyog")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RightWall"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("BoxMesh_j3f3o")
+
+[node name="StopWatch" parent="." instance=ExtResource("5_g7nri")]
+
+[node name="Label" type="Label" parent="StopWatch" groups=["stopwatch"]]
+custom_minimum_size = Vector2(500, 500)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -98.0
+offset_right = 99.0
+offset_bottom = 102.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 250
+text = "Start
+"
+horizontal_alignment = 1
+script = ExtResource("6_nwaes")

@@ -5,6 +5,11 @@ class_name TerrainController
 var TerrainBlocks: Array = []
 ## The set of terrain blocks which are currently rendered to viewport
 var terrain_belt: Array[MeshInstance3D] = []
+
+# Test in order to add the counter
+var row_spacing: float = 5.0
+# Test changes over
+
 @export var terrain_velocity: float = 10.0  # Should be faster than player's speed to simulate movement
 @export var num_terrain_blocks = 3
 @export var lane_width: float = 1.0 # Define the lane of each lane
