@@ -86,7 +86,7 @@ func _physics_process(_delta: float) -> void:
 
 func update_score() -> void:
 	# Check if terrain blocks have moved past the player and update the score
-	for block in get_tree().get_nodes_in_group("terrain_blocks"):
+	for block in get_tree().get_nodes_in_group("terrain_b	locks"):
 		if block.translation.z < position.z:
 			rows_passed += 1
 			score_label.text = "Score: " + str(rows_passed)
