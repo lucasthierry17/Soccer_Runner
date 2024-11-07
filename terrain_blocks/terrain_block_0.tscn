@@ -57,7 +57,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_jowe6")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uloko"]
-size = Vector3(4, 0.001, 1.08276)
+size = Vector3(4, 0.001, 1.36591)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r0drs"]
 resource_name = "Material.029"
@@ -267,7 +267,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="obstacle/Springdings/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0239892, -0.0399971, -0.676879)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0239892, -0.0399971, -0.535308)
 shape = SubResource("BoxShape3D_uloko")
 
 [node name="Freistossmännchen3" type="Node3D" parent="obstacle"]

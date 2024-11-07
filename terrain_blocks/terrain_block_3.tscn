@@ -219,7 +219,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_bwu6r")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3cm5b"]
-size = Vector3(3.75719, 0.0556641, 1.71826)
+size = Vector3(3.75719, 0.0556641, 1.51977)
 
 [node name="TerrainBlock_1" type="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.005, 0, 10)
@@ -340,5 +340,5 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="obstacle/Springdings/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 0.999984, -1.81188e-13, 0, 1.81188e-13, 0.999984, 0.0193717, 0.0945965, -0.359131)
+transform = Transform3D(1, 0, 0, 0, 0.999983, -2.02505e-13, 0, 2.02505e-13, 0.999983, 0.0193717, 0.0945963, -0.458372)
 shape = SubResource("BoxShape3D_3cm5b")
