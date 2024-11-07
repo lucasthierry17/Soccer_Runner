@@ -1,7 +1,20 @@
-[gd_scene load_steps=8 format=3 uid="uid://cno840nyxxpw2"]
+[gd_scene load_steps=22 format=3 uid="uid://cno840nyxxpw2"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_rjl68"]
 [ext_resource type="PackedScene" uid="uid://odgtnpypykcy" path="res://terrain_controller.tscn" id="1_wvryj"]
+[ext_resource type="Texture2D" uid="uid://cwwqxujvgupxt" path="res://Sprite/Running/Run/Run_Back (1).png" id="2_37c1g"]
+[ext_resource type="Texture2D" uid="uid://csiobsuibgep" path="res://Sprite/Running/Jump/Jump_Back (1).png" id="2_j472u"]
+[ext_resource type="Texture2D" uid="uid://23x046hbnagd" path="res://Sprite/Running/Jump/Jump_Back (2).png" id="3_a4s8u"]
+[ext_resource type="Texture2D" uid="uid://b1sg1u5xli6kp" path="res://Sprite/Running/Run/Run_Back (2).png" id="3_warxd"]
+[ext_resource type="Texture2D" uid="uid://bi4m87kcsaxbw" path="res://Sprite/Running/Jump/Jump_Back (3).png" id="4_32dr1"]
+[ext_resource type="Texture2D" uid="uid://bg0l02alv54k0" path="res://Sprite/Running/Run/Run_Back (3).png" id="4_k1xnk"]
+[ext_resource type="Texture2D" uid="uid://cw2bo01ru58x2" path="res://Sprite/Running/Jump/Jump_Back (4).png" id="5_bql44"]
+[ext_resource type="Texture2D" uid="uid://det38gyntivu4" path="res://Sprite/Running/Run/Run_Back (4).png" id="5_trlk8"]
+[ext_resource type="Texture2D" uid="uid://bmhupyrbmyj2q" path="res://Sprite/Running/Jump/Jump_Back (5).png" id="6_wp6fi"]
+[ext_resource type="Texture2D" uid="uid://ds8q8xnw8gj7a" path="res://Sprite/Running/Run/Run_Back (5).png" id="6_wrhlx"]
+[ext_resource type="Texture2D" uid="uid://c4nqps5hhul68" path="res://Sprite/Running/Run/Run_Back (6).png" id="7_say88"]
+[ext_resource type="Texture2D" uid="uid://cs1uyrduemin2" path="res://Sprite/Running/Jump/Jump_Back (6).png" id="7_siu8s"]
+[ext_resource type="Script" path="res://label.gd" id="15_ai81n"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_om122"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -20,6 +33,55 @@ glow_enabled = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_187ag"]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_xjh37"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_j472u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_a4s8u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_32dr1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bql44")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wp6fi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_siu8s")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_37c1g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_warxd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_k1xnk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_trlk8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wrhlx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_say88")
+}],
+"loop": true,
+"name": &"move",
+"speed": 15.0
+}]
+
 [node name="World" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -30,19 +92,41 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 shadow_enabled = true
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.1, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.203369, 1.26119, 0.0107727)
+collision_mask = 3
 script = ExtResource("1_rjl68")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+visible = false
 shape = SubResource("CapsuleShape3D_ofssd")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.1, 2.08165e-12)
+visible = false
 mesh = SubResource("CapsuleMesh_187ag")
 
-[node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 0.926962, 0.375156, 0, -0.375156, 0.926962, 0, 1.98366, 0.968483)
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Player"]
+transform = Transform3D(0.3, 0, 0, 0, 0.4, 0, 0, 0, 0.3, -0.0652502, -0.0616878, -0.504)
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_xjh37")
+animation = &"move"
+frame_progress = 0.524734
+
+[node name="TerrainController" parent="." instance=ExtResource("1_wvryj")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.956305, 0.292372, 0, -0.292372, 0.956305, -0.203, 1.94, 0.495)
 fov = 104.7
 far = 60.0
 
-[node name="TerrainController" parent="." instance=ExtResource("1_wvryj")]
+[node name="StopWatch" type="Node" parent="."]
+
+[node name="Label" type="Label" parent="StopWatch"]
+custom_minimum_size = Vector2(500, 500)
+offset_left = 2315.0
+offset_top = 1337.0
+offset_right = 2902.0
+offset_bottom = 1837.0
+theme_override_font_sizes/font_size = 250
+text = "Start"
+script = ExtResource("15_ai81n")
