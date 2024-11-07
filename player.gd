@@ -131,10 +131,10 @@ func _handle_collision(collider) -> void:
 	print("Game Over! Player collided with an obstacle:", collider.name)
 	animated_sprite.stop()
 
-	# Call a function to show the Game Over screen
+	# Call a function to go back to the start screen
 	show_game_over_screen()
 
 func show_game_over_screen() -> void:
-	# Display Game Over message and close the game window
+	# Display Game Over message and return to start screen
 	print("Displaying Game Over Screen")
-	get_tree().quit()  # This will close the game window
+	get_tree().change_scene_to_file("res://control.tscn")  # Ensure the path is correct # Ensure the path is correct

@@ -123,10 +123,10 @@ far = 60.0
 
 [node name="Label" type="Label" parent="StopWatch"]
 custom_minimum_size = Vector2(500, 500)
-offset_left = 2315.0
-offset_top = 1337.0
-offset_right = 2902.0
-offset_bottom = 1837.0
+offset_left = 1725.0
+offset_top = 777.0
+offset_right = 2312.0
+offset_bottom = 1277.0
 theme_override_font_sizes/font_size = 250
 text = "Start"
 script = ExtResource("15_ai81n")
