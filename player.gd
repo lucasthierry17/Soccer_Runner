@@ -48,8 +48,9 @@ func _ready():
 
 	# Initialize score label
 	score_label = Label.new()
-	score_label.position = Vector2(10, 10)  # Position at the top-left corner
+	score_label.position = Vector2(80, 80)  # Position at the top-left corner
 	score_label.text = "Score: 0"
+	score_label.scale = Vector2(3, 3)
 	add_child(score_label)  # Add the score label to the scene      
 
 	# Reference the existing countdown label in the scene
@@ -185,4 +186,4 @@ func _handle_collision(collider) -> void:
 func show_game_over_screen() -> void:
 	# Display Game Over message and close the game window
 	print("Displaying Game Over Screen")
-	get_tree().quit()  # This will close the game window
+	get_tree().change_scene_to_file("res://control.tscn")  # Ensure the path is correct # Ensure the path is correct
