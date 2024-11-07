@@ -8,8 +8,19 @@ const GRAVITY = 50.0
 @export var max_lanes = 1
 var current_lane = 0
 
+var target_x_position: float = 0.0
+var switch_duration: float = 0.3
+var switch_time: float = 0.0
+var is_switching: bool = false
+
 @onready var animated_sprite = get_node("AnimatedSprite3D")
 var game_over = false
+
+var swipe_start_position: Vector2 = Vector2.ZERO
+var swipe_threshold: float = 100.0
+var jump_swipe_threshold: float = 100.0  # Höherer Wert für deutliche Unterscheidung
+# Variable to track jump request
+var jump_requested: bool = false
 
 # Define the obstacle collision layer (Layer 2)
 const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
@@ -47,6 +58,30 @@ func _ready():
 	countdown_timer.connect("timeout", Callable(self, "_on_countdown_timeout"))
 	add_child(countdown_timer)
 	countdown_timer.start()
+	
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch:
+		if event.is_pressed():
+			swipe_start_position = event.position
+	elif event is InputEventScreenDrag:
+		var swipe_end_position = event.position
+		var swipe_distance = swipe_end_position - swipe_start_position
+
+		# Erkennung horizontaler und vertikaler Wischbewegungen
+		if swipe_distance.length() > swipe_threshold:
+			if abs(swipe_distance.x) > abs(swipe_distance.y):  
+				if swipe_distance.x > 0 and current_lane < max_lanes and not is_switching:
+					current_lane += 1
+					start_lane_switch()
+				elif swipe_distance.x < 0 and current_lane > -max_lanes and not is_switching:
+					current_lane -= 1
+					start_lane_switch()
+			elif swipe_distance.y < -jump_swipe_threshold and is_on_floor():
+				jump_requested = true
+				print("Jump detected!")  # Debug-Ausgabe
+
+			swipe_start_position = swipe_end_position  # Swipe zurücksetzen
 
 func _update_countdown_position() -> void:
 	# Calculate the center of the viewport and position the label
@@ -93,9 +128,9 @@ func _physics_process(_delta: float) -> void:
 		# Reset Y velocity when on the floor and prepare for jump
 		velocity.y = 0
 
-		# Handle jump input when on the floor
-		if Input.is_action_just_pressed("ui_accept"):  # "ui_accept" is the default for space
+		if jump_requested:
 			velocity.y = JUMP_FORCE  # Apply jump force
+			jump_requested = false
 			animated_sprite.play("jump")  # Play jump animation
 		else:
 			# Play "move" animation when grounded and not jumping
@@ -119,6 +154,12 @@ func _physics_process(_delta: float) -> void:
 		# Check if the collider is on the obstacle layer
 		if collider.collision_layer & OBSTACLE_LAYER != 0:
 			_handle_collision(collider)
+			
+# Funktion zum Starten des Spurwechsels und Initialisieren der Parameter
+func start_lane_switch() -> void:
+	target_x_position = current_lane * lane_width
+	switch_time = 0.0
+	is_switching = true
 
 # Function to update the player's position based on the current lane
 func update_position():
