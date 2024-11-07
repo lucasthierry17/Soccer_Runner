@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.3", "Forward Plus")
 
 window/size/viewport_width=2304
 window/size/viewport_height=1296
+window/handheld/orientation=1
 
 [input]
 
