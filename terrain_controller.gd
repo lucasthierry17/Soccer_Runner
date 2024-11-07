@@ -14,7 +14,10 @@ var terrain_belt: Array[MeshInstance3D] = []
 var can_move = false  # Only move when this is true
 
 func _ready() -> void:
-	_load_terrain_scenes(terrain_blocks_path)
+	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_0.tscn"))
+	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_1.tscn"))
+	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_2.tscn"))
+	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_3.tscn"))
 	_init_blocks(num_terrain_blocks)
 
 func _physics_process(delta: float) -> void:

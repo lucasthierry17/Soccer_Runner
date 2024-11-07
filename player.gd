@@ -35,6 +35,12 @@ var countdown_label: Label
 var countdown_time = 3  # Countdown starts from 3
 var can_move = false
 
+func ease_in_out_quad(t: float) -> float:
+	if t < 0.5: 
+		return 2 * t * t 
+	else: 
+		return -1 + (4 - 2 * t) * t
+
 func _ready():
 	current_lane = 0
 	update_position()
@@ -108,17 +114,17 @@ func _on_countdown_timeout() -> void:
 		countdown_label.visible = false  # Hide countdown label once it's "GO!"
 
 func _physics_process(_delta: float) -> void:
-	# If the game is over or countdown hasn't finished, stop updating
+		# If the game is over or countdown hasn't finished, stop updating
 	if game_over or not can_move:
 		return
-
-	# Detect lane switching input
-	if Input.is_action_just_pressed("ui_left") and current_lane > -max_lanes:
-		current_lane -= 1
-		update_position()
-	elif Input.is_action_just_pressed("ui_right") and current_lane < max_lanes:
-		current_lane += 1
-		update_position()
+		# Smooth lane transition using easing if switching lanes
+	if is_switching:
+		switch_time += _delta
+		var t = min(switch_time / switch_duration, 1.0)
+		position.x = lerp(position.x, target_x_position, ease_in_out_quad(t))
+		
+		if t >= 1.0:
+			is_switching = false
 
 	# Apply gravity when not on the floor
 	if not is_on_floor():
@@ -165,6 +171,7 @@ func start_lane_switch() -> void:
 func update_position():
 	var target_x_position = current_lane * lane_width
 	position.x = target_x_position
+	switch_time = 0.0
 
 # Function to handle collisions
 func _handle_collision(collider) -> void:
