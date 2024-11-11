@@ -13,6 +13,9 @@ var terrain_belt: Array[MeshInstance3D] = []
 # Variable to control movement
 var can_move = false  # Only move when this is true
 
+# Velocity increase rate (1% per second)
+var velocity_increase_rate: float = 1.01
+
 func _ready() -> void:
 	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_0.tscn"))
 	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_1.tscn"))
@@ -24,6 +27,8 @@ func _physics_process(delta: float) -> void:
 	# Only progress terrain if can_move is true
 	if can_move:
 		_progress_terrain(delta)
+		# Increase the terrain_velocity by 1% per second
+		terrain_velocity *= pow(velocity_increase_rate, delta)
 
 @onready var grass_texture = load("res://wiese_11.png")
 
