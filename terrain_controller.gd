@@ -14,7 +14,7 @@ var terrain_belt: Array[MeshInstance3D] = []
 var can_move = false  # Only move when this is true
 
 # Velocity increase rate (1% per second)
-var velocity_increase_rate: float = 1.01
+var velocity_increase_rate: float = 1.005
 
 func _ready() -> void:
 	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_0.tscn"))
