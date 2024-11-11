@@ -89,6 +89,22 @@ func _unhandled_input(event: InputEvent) -> void:
 				print("Jump detected!")  # Debug-Ausgabe
 
 			swipe_start_position = swipe_end_position  # Swipe zurücksetzen
+	
+	elif event is InputEventKey:
+		if event.is_pressed():
+			match event.keycode:
+				KEY_RIGHT, KEY_D:
+					if current_lane < max_lanes and not is_switching:
+						current_lane += 1
+						start_lane_switch()
+				KEY_LEFT, KEY_A:
+					if current_lane > -max_lanes and not is_switching:
+						current_lane -= 1
+						start_lane_switch()
+				KEY_SPACE:
+					if is_on_floor():
+						jump_requested = true
+						
 
 func _update_countdown_position() -> void:
 	# Calculate the center of the viewport and position the label
