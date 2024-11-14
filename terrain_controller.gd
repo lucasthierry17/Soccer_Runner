@@ -10,6 +10,7 @@ var terrain_belt: Array[MeshInstance3D] = []
 @export var lane_width: float = 1.0 # Define the lane of each lane
 @export var terrain_blocks_path: String = "res://terrain_blocks"
 
+var velocity_increase_rate: float = 1.002
 # Variable to control movement
 var can_move = false  # Only move when this is true
 
@@ -24,6 +25,8 @@ func _physics_process(delta: float) -> void:
 	# Only progress terrain if can_move is true
 	if can_move:
 		_progress_terrain(delta)
+		# Increase the terrain_velocity by 0.2% per second
+		terrain_velocity *= pow(velocity_increase_rate, delta)
 
 @onready var grass_texture = load("res://wiese_11.png")
 
