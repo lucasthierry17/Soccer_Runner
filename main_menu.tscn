@@ -1,0 +1,133 @@
+[gd_scene load_steps=12 format=3 uid="uid://cmmpwx85x205y"]
+
+[ext_resource type="Script" path="res://main_menu.gd" id="1_eaqmt"]
+[ext_resource type="Texture2D" uid="uid://db6plng4vwpo8" path="res://png/stadium.png" id="1_er8gt"]
+[ext_resource type="Texture2D" uid="uid://dji3wr48pbtvj" path="res://Sprite/idle/Idle_Front (1).png" id="2_kgnvk"]
+[ext_resource type="Texture2D" uid="uid://bjrbi5g8ciayr" path="res://Sprite/idle/Idle_Front (2).png" id="3_q6vif"]
+[ext_resource type="Texture2D" uid="uid://b5b4whgkam2ib" path="res://Sprite/idle/Idle_Front (3).png" id="4_060ea"]
+[ext_resource type="Texture2D" uid="uid://cxne4ejoj6n3u" path="res://Sprite/idle/Idle_Front (4).png" id="5_tgwh5"]
+[ext_resource type="Texture2D" uid="uid://e1w8skre5df0" path="res://Sprite/idle/Idle_Front (5).png" id="6_ym0c3"]
+[ext_resource type="Texture2D" uid="uid://bxiqsli7021ab" path="res://Sprite/idle/Idle_Front (6).png" id="7_ql4xr"]
+
+[sub_resource type="SystemFont" id="SystemFont_gg4g5"]
+font_names = PackedStringArray("Impact")
+
+[sub_resource type="SystemFont" id="SystemFont_7igik"]
+font_names = PackedStringArray("Impact")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n5tfo"]
+animations = [{
+"frames": [{
+"duration": 0.7,
+"texture": ExtResource("2_kgnvk")
+}, {
+"duration": 0.7,
+"texture": ExtResource("3_q6vif")
+}, {
+"duration": 0.7,
+"texture": ExtResource("4_060ea")
+}, {
+"duration": 0.7,
+"texture": ExtResource("5_tgwh5")
+}, {
+"duration": 0.7,
+"texture": ExtResource("6_ym0c3")
+}, {
+"duration": 0.7,
+"texture": ExtResource("7_ql4xr")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="Main_menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_eaqmt")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_right = 152.0
+offset_bottom = 87.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_er8gt")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 120
+
+[node name="Seperator" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.109804)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 7
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/outline_size = 30
+theme_override_fonts/font = SubResource("SystemFont_gg4g5")
+theme_override_font_sizes/font_size = 84
+text = "Fup Runner	"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 67
+alignment = 1
+
+[node name="Play" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_7igik")
+theme_override_font_sizes/font_size = 48
+text = "Play"
+
+[node name="Play3" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_7igik")
+theme_override_font_sizes/font_size = 48
+text = "Settings"
+
+[node name="Play2" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_7igik")
+theme_override_font_sizes/font_size = 48
+text = "Quit"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+position = Vector2(118, 1061)
+scale = Vector2(0.734375, 0.734375)
+sprite_frames = SubResource("SpriteFrames_n5tfo")
+animation = &"idle"
+frame = 5
+frame_progress = 0.558863

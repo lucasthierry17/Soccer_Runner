@@ -202,4 +202,4 @@ func _handle_collision(collider) -> void:
 func show_game_over_screen() -> void:
 	# Display Game Over message and close the game window
 	print("Displaying Game Over Screen")
-	get_tree().change_scene_to_file("res://control.tscn")  # Ensure the path is correct # Ensure the path is correct
+	get_tree().change_scene_to_file("res://game_over.tscn")  # Ensure the path is correct # Ensure the path is correct

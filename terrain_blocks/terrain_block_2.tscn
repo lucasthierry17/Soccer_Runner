@@ -152,6 +152,7 @@ shape = SubResource("BoxShape3D_2ks24")
 transform = Transform3D(1.56673, 1.37207e-07, -0.454755, -2.3879e-07, 1.33333, -1.24228e-07, 0.568444, 1.81934e-07, 1.25338, 1.83656, 36.333, -0.514603)
 
 [node name="Cylinder_005_Material_019_0" type="MeshInstance3D" parent="obstacle/Springdings"]
+transform = Transform3D(1, -2.71051e-20, -1.36347e-20, 0, 1, 0, -1.1647e-20, 0, 1, 0, -2.19811, -1.19209e-07)
 mesh = SubResource("ArrayMesh_05lxd")
 skeleton = NodePath("")
 

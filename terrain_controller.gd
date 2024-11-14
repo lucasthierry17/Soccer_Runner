@@ -10,7 +10,7 @@ var terrain_belt: Array[MeshInstance3D] = []
 @export var lane_width: float = 1.0 # Define the lane of each lane
 @export var terrain_blocks_path: String = "res://terrain_blocks"
 
-var velocity_increase_rate: float = 1.002
+var velocity_increase_rate: float = 1.005
 # Variable to control movement
 var can_move = false  # Only move when this is true
 

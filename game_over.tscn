@@ -1,0 +1,135 @@
+[gd_scene load_steps=12 format=3 uid="uid://c0cj4e37i81s3"]
+
+[ext_resource type="Script" path="res://game_over.gd" id="1_q3wpj"]
+[ext_resource type="Texture2D" uid="uid://db6plng4vwpo8" path="res://png/stadium.png" id="2_w0vnk"]
+[ext_resource type="Texture2D" uid="uid://kwbmuk36p4ps" path="res://Sprite/die/Die_Front (1).png" id="3_cal1x"]
+[ext_resource type="Texture2D" uid="uid://btcfmgkh4yx8n" path="res://Sprite/die/Die_Front (2).png" id="4_gcjjy"]
+[ext_resource type="Texture2D" uid="uid://dmf320h5vijo8" path="res://Sprite/die/Die_Front (3).png" id="5_x208p"]
+[ext_resource type="Texture2D" uid="uid://dhxhdmw5css8v" path="res://Sprite/die/Die_Front (4).png" id="6_y3rny"]
+[ext_resource type="Texture2D" uid="uid://3mp6lajn1ves" path="res://Sprite/die/Die_Front (5).png" id="7_hpkld"]
+[ext_resource type="Texture2D" uid="uid://v7r85rf14tjt" path="res://Sprite/die/Die_Front (6).png" id="8_r1b56"]
+
+[sub_resource type="SystemFont" id="SystemFont_gg4g5"]
+font_names = PackedStringArray("Impact")
+
+[sub_resource type="SystemFont" id="SystemFont_7igik"]
+font_names = PackedStringArray("Impact")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n5tfo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_cal1x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gcjjy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_x208p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_y3rny")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_hpkld")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_r1b56")
+}],
+"loop": false,
+"name": &"die",
+"speed": 7.0
+}]
+
+[node name="game_over" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_q3wpj")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_right = 152.0
+offset_bottom = 87.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_w0vnk")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 136
+
+[node name="Seperator" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.109804)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 7
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/outline_size = 30
+theme_override_fonts/font = SubResource("SystemFont_gg4g5")
+theme_override_font_sizes/font_size = 134
+text = "GAME
+OVER!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 67
+alignment = 1
+
+[node name="PlayAgain" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_7igik")
+theme_override_font_sizes/font_size = 48
+text = "Play Again"
+
+[node name="Play3" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_7igik")
+theme_override_font_sizes/font_size = 48
+text = "Settings"
+
+[node name="Quit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_7igik")
+theme_override_font_sizes/font_size = 48
+text = "Menu"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+position = Vector2(118, 1061)
+scale = Vector2(0.734375, 0.734375)
+sprite_frames = SubResource("SpriteFrames_n5tfo")
+animation = &"die"
+frame = 5
+frame_progress = 1.0
