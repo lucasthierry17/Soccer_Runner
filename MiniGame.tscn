@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://drnr02n88tma"]
+
+[ext_resource type="Script" path="res://MiniGame.gd" id="1_kco6m"]
+[ext_resource type="Texture2D" uid="uid://cy3cf5jvvusw5" path="res://Sprite/red_goal.png" id="2_jkus5"]
+[ext_resource type="Texture2D" uid="uid://cb3w6ox4hcdp4" path="res://Sprite/blue_goal.png" id="3_0u3uo"]
+[ext_resource type="Texture2D" uid="uid://dyyp0usqvnej0" path="res://Sprite/green_goal.png" id="4_g753r"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_kco6m")
+
+[node name="RedGoal" type="Sprite2D" parent="."]
+position = Vector2(356, 314)
+scale = Vector2(1.48889, 1.57143)
+texture = ExtResource("2_jkus5")
+
+[node name="BlueGoal" type="Sprite2D" parent="."]
+position = Vector2(1065, 304)
+scale = Vector2(1.62778, 1.65934)
+texture = ExtResource("3_0u3uo")
+
+[node name="GreenGoal" type="Sprite2D" parent="."]
+position = Vector2(1865, 303)
+scale = Vector2(1.43194, 1.62637)
+texture = ExtResource("4_g753r")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="TargetColorLabel" type="Label" parent="."]
+offset_left = 410.0
+offset_top = 666.0
+offset_right = 1764.0
+offset_bottom = 1125.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 22.0
+offset_top = 822.0
+offset_right = 384.0
+offset_bottom = 1285.0
+horizontal_alignment = 1
+vertical_alignment = 1
