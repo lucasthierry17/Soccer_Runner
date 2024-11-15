@@ -35,6 +35,9 @@ var countdown_label: Label
 var countdown_time = 3  # Countdown starts from 3
 var can_move = false
 
+var current_score = 0
+var high_score = 0
+
 func ease_in_out_quad(t: float) -> float:
 	if t < 0.5: 
 		return 2 * t * t 
@@ -42,6 +45,7 @@ func ease_in_out_quad(t: float) -> float:
 		return -1 + (4 - 2 * t) * t
 
 func _ready():
+	high_score = load_high_score()
 	current_lane = 0
 	update_position()
 	animated_sprite.play("move")
@@ -54,7 +58,7 @@ func _ready():
 	add_child(score_label)  # Add the score label to the scene      
 
 	# Reference the existing countdown label in the scene
-	countdown_label = get_node("StopWatch/Label")
+	#countdown_label = get_node("StopWatch/Label")
 	countdown_label = get_node("../StopWatch/Label")
 	_update_countdown_position()  # Center the countdown label
 
@@ -65,6 +69,21 @@ func _ready():
 	countdown_timer.connect("timeout", Callable(self, "_on_countdown_timeout"))
 	add_child(countdown_timer)
 	countdown_timer.start()
+	
+	# Lade den gespeicherten Highscore aus den Einstellungen
+	score_label.text = "Score: 0  "
+	
+func load_high_score() -> int:
+	var file = FileAccess.open("user://high_score.save", FileAccess.READ)
+	if file:
+		high_score = file.get_32()
+		file.close()
+	return high_score
+
+func save_high_score(new_score: int) -> void:
+	var file = FileAccess.open("user://high_score.save", FileAccess.WRITE)
+	file.store_32(new_score)
+	file.close()
 	
 	
 func _unhandled_input(event: InputEvent) -> void:
@@ -111,7 +130,6 @@ func _update_countdown_position() -> void:
 	var screen_center = get_viewport().get_visible_rect().size / 2
 	var label_size = countdown_label.get_minimum_size() / 2
 	countdown_label.position = screen_center - label_size
-
 
 
 func _on_countdown_timeout() -> void:
@@ -166,7 +184,8 @@ func _physics_process(_delta: float) -> void:
 	terrain_distance_moved += _delta * 20  # Replace with your terrain movement speed
 	if terrain_distance_moved >= 1.0:  # Assuming 1 unit per row
 		rows_passed += 1
-		score_label.text = "Score: " + str(rows_passed)
+		current_score = rows_passed
+		score_label.text = "Score: " + str(current_score)
 		terrain_distance_moved = 0.0  # Reset for the next row
 
 	# Check for collisions with obstacles
@@ -200,6 +219,16 @@ func _handle_collision(collider) -> void:
 	show_game_over_screen()
 
 func show_game_over_screen() -> void:
-	# Display Game Over message and close the game window
-	print("Displaying Game Over Screen")
-	get_tree().change_scene_to_file("res://game_over.tscn")  # Ensure the path is correct # Ensure the path is correct
+	var game_over_scene = preload("res://game_over.tscn").instantiate()
+	
+	# Ensure high_score is updated before displaying the GameOver screen
+	if current_score > high_score:
+		high_score = current_score
+		save_high_score(high_score)  # Save the new high score if it's higher
+
+	# Set the scores on the GameOver scene instance
+	game_over_scene.set_score(current_score)
+	game_over_scene.high_score = high_score  # Manually set the high_score if needed
+
+	get_tree().root.add_child(game_over_scene)
+	queue_free()  # Remove the player from the scene

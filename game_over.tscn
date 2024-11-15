@@ -100,7 +100,9 @@ layout_mode = 2
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+clip_contents = true
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_constants/separation = 67
 alignment = 1
 
@@ -133,3 +135,18 @@ sprite_frames = SubResource("SpriteFrames_n5tfo")
 animation = &"die"
 frame = 5
 frame_progress = 1.0
+
+[node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.101961, 0, 0.623529, 1)
+theme_override_colors/font_shadow_color = Color(0.101961, 0, 0.623529, 1)
+theme_override_font_sizes/font_size = 70
+horizontal_alignment = 1
+
+[node name="HighScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.101058, 0, 0.622557, 1)
+theme_override_colors/font_shadow_color = Color(0.101961, 0, 0.623529, 1)
+theme_override_font_sizes/font_size = 70
+horizontal_alignment = 1
+vertical_alignment = 1
