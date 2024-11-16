@@ -36,7 +36,7 @@ animations = [{
 "duration": 0.7,
 "texture": ExtResource("7_ql4xr")
 }],
-"loop": false,
+"loop": true,
 "name": &"idle",
 "speed": 10.0
 }]
@@ -110,14 +110,14 @@ theme_override_fonts/font = SubResource("SystemFont_7igik")
 theme_override_font_sizes/font_size = 48
 text = "Play"
 
-[node name="Play3" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Settings" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_7igik")
 theme_override_font_sizes/font_size = 48
 text = "Settings"
 
-[node name="Play2" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
 theme_override_fonts/font = SubResource("SystemFont_7igik")
@@ -129,5 +129,4 @@ position = Vector2(118, 1061)
 scale = Vector2(0.734375, 0.734375)
 sprite_frames = SubResource("SpriteFrames_n5tfo")
 animation = &"idle"
-frame = 5
-frame_progress = 0.558863
+frame_progress = 0.190674

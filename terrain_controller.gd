@@ -20,7 +20,7 @@ func _ready() -> void:
 	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_2.tscn"))
 	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_3.tscn"))
 	_init_blocks(num_terrain_blocks)
-
+	
 func _physics_process(delta: float) -> void:
 	# Only progress terrain if can_move is true
 	if can_move:

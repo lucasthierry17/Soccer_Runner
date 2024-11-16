@@ -1,20 +1,24 @@
 class_name MainMenu
 extends Control
+
 @onready var start_button = $MarginContainer/HBoxContainer/VBoxContainer/Play as Button
-@onready var exit_button = $MarginContainer/HBoxContainer/VBoxContainer/Play2 as Button
+@onready var settings_button = $MarginContainer/HBoxContainer/VBoxContainer/Settings as Button  # Settings button
+@onready var exit_button = $MarginContainer/HBoxContainer/VBoxContainer/Quit as Button
 @onready var start_game = preload("res://world.tscn") as PackedScene
+@onready var settings_scene = preload("res://Settings.tscn") as PackedScene  # Preload settings scene
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	start_button.button_down.connect(on_start_pressed)
 	exit_button.button_down.connect(on_exit_pressed)
-	pass # Replace with function body.
+	settings_button.button_down.connect(on_settings_pressed)  # Connect settings button
+	pass
 
 func on_start_pressed() -> void:
 	get_tree().change_scene_to_packed(start_game)
 
+func on_settings_pressed() -> void:
+	get_tree().change_scene_to_packed(settings_scene)  # Switch to settings scene
+
 func on_exit_pressed() -> void:
 	get_tree().quit()
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

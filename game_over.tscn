@@ -11,9 +11,11 @@
 
 [sub_resource type="SystemFont" id="SystemFont_gg4g5"]
 font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_7igik"]
 font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_n5tfo"]
 animations = [{
@@ -76,7 +78,7 @@ theme_override_constants/margin_bottom = 12
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-theme_override_constants/separation = 136
+theme_override_constants/separation = 55
 
 [node name="Seperator" type="Control" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -103,50 +105,51 @@ alignment = 1
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/separation = 67
+theme_override_constants/separation = 30
 alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
 
 [node name="PlayAgain" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = SubResource("SystemFont_7igik")
 theme_override_font_sizes/font_size = 48
 text = "Play Again"
 
-[node name="Play3" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(250, 50)
-layout_mode = 2
-theme_override_fonts/font = SubResource("SystemFont_7igik")
-theme_override_font_sizes/font_size = 48
-text = "Settings"
-
 [node name="Quit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = SubResource("SystemFont_7igik")
 theme_override_font_sizes/font_size = 48
 text = "Menu"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-position = Vector2(118, 1061)
+position = Vector2(117, 1061)
 scale = Vector2(0.734375, 0.734375)
 sprite_frames = SubResource("SpriteFrames_n5tfo")
 animation = &"die"
 frame = 5
 frame_progress = 1.0
 
-[node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="ScoreButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.101961, 0, 0.623529, 1)
-theme_override_colors/font_shadow_color = Color(0.101961, 0, 0.623529, 1)
-theme_override_font_sizes/font_size = 70
-horizontal_alignment = 1
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_7igik")
+theme_override_font_sizes/font_size = 48
 
-[node name="HighScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HighScoreButton" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.101058, 0, 0.622557, 1)
-theme_override_colors/font_shadow_color = Color(0.101961, 0, 0.623529, 1)
-theme_override_font_sizes/font_size = 70
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_7igik")
+theme_override_font_sizes/font_size = 48

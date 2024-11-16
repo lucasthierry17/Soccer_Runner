@@ -14,6 +14,10 @@ var switch_time: float = 0.0
 var is_switching: bool = false
 
 @onready var animated_sprite = get_node("AnimatedSprite3D")
+@onready var jump_sound = $JumpSound as AudioStreamPlayer
+@onready var death_sound = $DeathSound as AudioStreamPlayer
+@onready var background_sound = $BackgroundMusic as AudioStreamPlayer
+
 var game_over = false
 
 var swipe_start_position: Vector2 = Vector2.ZERO
@@ -123,6 +127,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				KEY_SPACE:
 					if is_on_floor():
 						jump_requested = true
+						jump_sound.play() # play the jump sound
 						
 
 func _update_countdown_position() -> void:
@@ -140,11 +145,13 @@ func _on_countdown_timeout() -> void:
 		countdown_time = 0
 		countdown_label.text = "GO!"
 		can_move = true  # Allow player to start moving
+		
 
 		# Enable movement in the TerrainController
 		var terrain_controller = get_parent().get_node("TerrainController")  # Adjust the path as needed
 		if terrain_controller:
 			terrain_controller.can_move = true
+			background_sound.play()
 	else:
 		countdown_label.visible = false  # Hide countdown label once it's "GO!"
 
@@ -192,7 +199,7 @@ func _physics_process(_delta: float) -> void:
 	for i in range(get_slide_collision_count()):
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
-
+		
 		# Check if the collider is on the obstacle layer
 		if collider.collision_layer & OBSTACLE_LAYER != 0:
 			_handle_collision(collider)
@@ -211,6 +218,7 @@ func update_position():
 
 # Function to handle collisions
 func _handle_collision(collider) -> void:
+	
 	game_over = true
 	print("Game Over! Player collided with an obstacle:", collider.name)
 	animated_sprite.stop()

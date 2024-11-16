@@ -3,8 +3,8 @@ extends Control
 
 @onready var start_button = $MarginContainer/HBoxContainer/VBoxContainer/PlayAgain as Button
 @onready var exit_button = $MarginContainer/HBoxContainer/VBoxContainer/Quit as Button
-@onready var score_label = $MarginContainer/HBoxContainer/VBoxContainer/ScoreLabel as Label
-@onready var high_score_label = $MarginContainer/HBoxContainer/VBoxContainer/HighScoreLabel as Label
+@onready var score_button = $MarginContainer/HBoxContainer/VBoxContainer/ScoreButton as Button
+@onready var high_score_button = $MarginContainer/HBoxContainer/VBoxContainer/HighScoreButton as Button
 @onready var start_game = preload("res://world.tscn") as PackedScene
 
 var current_score: int = 0
@@ -14,9 +14,13 @@ func _ready() -> void:
 	start_button.button_down.connect(on_start_pressed)
 	exit_button.button_down.connect(on_exit_pressed)
 
-	# Aktualisiere die Labels
-	score_label.text = "Score: %d" % current_score
-	high_score_label.text = "High Score: %d" % high_score
+	# Update the buttons with the scores
+	score_button.text = "Score: %d" % current_score
+	high_score_button.text = "High Score: %d" % high_score
+
+	# Disable interactivity for score and high-score buttons
+	score_button.disabled = true
+	high_score_button.disabled = true
 
 func set_score(score: int) -> void:
 	current_score = score
