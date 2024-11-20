@@ -1,42 +1,79 @@
-[gd_scene load_steps=5 format=3 uid="uid://drnr02n88tma"]
+[gd_scene load_steps=9 format=3 uid="uid://drnr02n88tma"]
 
 [ext_resource type="Script" path="res://MiniGame.gd" id="1_kco6m"]
 [ext_resource type="Texture2D" uid="uid://cy3cf5jvvusw5" path="res://Sprite/red_goal.png" id="2_jkus5"]
+[ext_resource type="Texture2D" uid="uid://db6plng4vwpo8" path="res://png/stadium.png" id="2_lcpsj"]
 [ext_resource type="Texture2D" uid="uid://cb3w6ox4hcdp4" path="res://Sprite/blue_goal.png" id="3_0u3uo"]
 [ext_resource type="Texture2D" uid="uid://dyyp0usqvnej0" path="res://Sprite/green_goal.png" id="4_g753r"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ti5ey"]
+size = Vector2(532, 283)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gn5rr"]
+size = Vector2(376.119, 183.273)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ef76g"]
+size = Vector2(329.776, 178.818)
+
 [node name="Node2D" type="Node2D"]
+position = Vector2(-2, 2)
 script = ExtResource("1_kco6m")
 
-[node name="RedGoal" type="Sprite2D" parent="."]
+[node name="Stadium" type="Sprite2D" parent="."]
+position = Vector2(1387, -552)
+scale = Vector2(2.91551, 3.61247)
+texture = ExtResource("2_lcpsj")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 13.0
+offset_top = 533.0
+offset_right = 375.0
+offset_bottom = 996.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TargetColorRect" type="ColorRect" parent="."]
+offset_left = 728.0
+offset_top = 711.0
+offset_right = 1780.0
+offset_bottom = 1057.0
+
+[node name="RedGoal" type="Area2D" parent="."]
+position = Vector2(76, 20)
+
+[node name="Sprite2D" type="Sprite2D" parent="RedGoal"]
 position = Vector2(356, 314)
 scale = Vector2(1.48889, 1.57143)
 texture = ExtResource("2_jkus5")
 
-[node name="BlueGoal" type="Sprite2D" parent="."]
-position = Vector2(1065, 304)
-scale = Vector2(1.62778, 1.65934)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RedGoal"]
+position = Vector2(358, 318)
+shape = SubResource("RectangleShape2D_ti5ey")
+
+[node name="BlueGoal" type="Area2D" parent="."]
+position = Vector2(530, 334)
+scale = Vector2(1.48889, 1.57143)
+
+[node name="Sprite2D" type="Sprite2D" parent="BlueGoal"]
+position = Vector2(476.194, -6.36363)
+scale = Vector2(1.09328, 1.05594)
 texture = ExtResource("3_0u3uo")
 
-[node name="GreenGoal" type="Sprite2D" parent="."]
-position = Vector2(1865, 303)
-scale = Vector2(1.43194, 1.62637)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlueGoal"]
+position = Vector2(476.865, -4.45455)
+shape = SubResource("RectangleShape2D_gn5rr")
+
+[node name="GreenGoal" type="Area2D" parent="."]
+position = Vector2(652, 374)
+scale = Vector2(1.48889, 1.57143)
+
+[node name="Sprite2D" type="Sprite2D" parent="GreenGoal"]
+position = Vector2(883.88, -28)
+scale = Vector2(0.96175, 1.03496)
 texture = ExtResource("4_g753r")
 
-[node name="Timer" type="Timer" parent="."]
-
-[node name="TargetColorLabel" type="Label" parent="."]
-offset_left = 410.0
-offset_top = 666.0
-offset_right = 1764.0
-offset_bottom = 1125.0
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ScoreLabel" type="Label" parent="."]
-offset_left = 22.0
-offset_top = 822.0
-offset_right = 384.0
-offset_bottom = 1285.0
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GreenGoal"]
+position = Vector2(883.544, -23.8636)
+shape = SubResource("RectangleShape2D_ef76g")
