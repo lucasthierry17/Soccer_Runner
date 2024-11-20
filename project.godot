@@ -12,8 +12,16 @@ config_version=5
 
 config/name="EndlessRunner"
 config/description="This is an endless runner POC.  Used as a project to learn the concept."
+<<<<<<< HEAD
 run/main_scene="res://MiniGame.tscn"
+=======
+run/main_scene="res://main_menu.tscn"
+>>>>>>> main
 config/features=PackedStringArray("4.3", "Forward Plus")
+
+[autoload]
+
+GameSettings="*res://GameSettings.gd"
 
 [display]
 
