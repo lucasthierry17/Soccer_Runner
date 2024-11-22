@@ -15,6 +15,10 @@ var velocity_increase_rate: float = 1.005
 var can_move = false  # Only move when this is true
 
 func _ready() -> void:
+	# Load terrain settings from GameSettings
+	terrain_velocity = GameSettings.velocity
+	velocity_increase_rate = GameSettings.acceleration_rate
+	
 	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_0.tscn"))
 	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_1.tscn"))
 	TerrainBlocks.append(load("res://terrain_blocks/terrain_block_2.tscn"))
@@ -104,6 +108,6 @@ func _load_terrain_scenes(target_path: String) -> void:
 	else:
 		print("Failed to open directory: " + target_path)
 	
-	# Debug output to verify scenes were loaded
+	# Debug output to verify scenes were load
 	if TerrainBlocks.is_empty():
 		print("No terrain blocks were loaded. Check the directory path or file format.")

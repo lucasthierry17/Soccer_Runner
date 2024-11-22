@@ -1,46 +1,38 @@
 extends CharacterBody3D
 
+#constatns
 const SIDE_SPEED = 500.0
 const JUMP_FORCE = 13.0       
 const GRAVITY = 50.0
+const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
 
+# variables
 @export var lane_width = 1.0
 @export var max_lanes = 1
-var current_lane = 0
-
-var target_x_position: float = 0.0
-var switch_duration: float = 0.3
-var switch_time: float = 0.0
-var is_switching: bool = false
-
 @onready var animated_sprite = get_node("AnimatedSprite3D")
 @onready var jump_sound = $JumpSound as AudioStreamPlayer
 @onready var death_sound = $DeathSound as AudioStreamPlayer
-@onready var background_sound = $BackgroundMusic as AudioStreamPlayer
+@onready var background_music = $BackgroundMusic as AudioStreamPlayer
 
-var game_over = false
-
+var current_lane = 0 # starting in the middle lane
+var target_x_position: float = 0.0 
+var switch_duration: float = 0.3 # duration of the switch from one lane to another
+var switch_time: float = 0.0 # start of the switch time
+var is_switching: bool = false # on when player is switching lanes
+var game_over = false # if game is on or off
 var swipe_start_position: Vector2 = Vector2.ZERO
-var swipe_threshold: float = 100.0
-var jump_swipe_threshold: float = 100.0  # Höherer Wert für deutliche Unterscheidung
-# Variable to track jump request
-var jump_requested: bool = false
-
-# Define the obstacle collision layer (Layer 2)
-const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
-
-# Score variables
+var swipe_threshold: float = 100.0 
+var jump_swipe_threshold: float = 100.0  # higher value for better distiction
+var jump_requested: bool = false # to handle the jump
 var score_label: Label
 var rows_passed = 0  # Tracks rows passed as a score
 var terrain_distance_moved = 0.0  # Tracks terrain movement along the z-axis
-
-# Countdown variables
 var countdown_label: Label
 var countdown_time = 3  # Countdown starts from 3
 var can_move = false
-
 var current_score = 0
 var high_score = 0
+
 
 func ease_in_out_quad(t: float) -> float:
 	if t < 0.5: 
@@ -48,7 +40,26 @@ func ease_in_out_quad(t: float) -> float:
 	else: 
 		return -1 + (4 - 2 * t) * t
 
-func _ready():
+func _ready() -> void:
+	# connect to GameSettings signals
+	GameSettings.connect("settings_changed", Callable(self, "_apply_settings"))
+	_apply_settings() # Apply initial settings
+	
+func _apply_settings():
+	print("Applying settings: Music: ", GameSettings.music_enabled, ", Sound: ", GameSettings.sound_enabled)
+	if GameSettings.music_enabled:
+		$BackgroundMusic.play() # Assuming you have a MusicPlayer as a child 
+	else: 
+		background_music.volume_db = -80
+		$BackgroundMusic.stop()
+	if GameSettings.sound_enabled: 
+		jump_sound.volume_db = 0
+		death_sound.volume_db = 0
+	else: 
+		jump_sound.volume_db = -80
+		death_sound.volume_db = -80
+		
+	
 	high_score = load_high_score()
 	current_lane = 0
 	update_position()
@@ -57,7 +68,7 @@ func _ready():
 	# Initialize score label
 	score_label = Label.new()
 	score_label.position = Vector2(80, 80)  # Position at the top-left corner
-	score_label.text = "Score: 0"
+	score_label.text = "Score: 0 "
 	score_label.scale = Vector2(3, 3)
 	add_child(score_label)  # Add the score label to the scene      
 
@@ -77,6 +88,14 @@ func _ready():
 	# Lade den gespeicherten Highscore aus den Einstellungen
 	score_label.text = "Score: 0  "
 	
+func _on_music_toggle_changed(enabled: bool) -> void:
+	if enabled:
+		background_music.play()
+		background_music.volume_db = 0
+	else: 
+		background_music.stop()
+		background_music.volume_db = -80 # Mute it entirely
+		
 func load_high_score() -> int:
 	var file = FileAccess.open("user://high_score.save", FileAccess.READ)
 	if file:
@@ -151,7 +170,7 @@ func _on_countdown_timeout() -> void:
 		var terrain_controller = get_parent().get_node("TerrainController")  # Adjust the path as needed
 		if terrain_controller:
 			terrain_controller.can_move = true
-			background_sound.play()
+			background_music.play()
 	else:
 		countdown_label.visible = false  # Hide countdown label once it's "GO!"
 
@@ -218,17 +237,16 @@ func update_position():
 
 # Function to handle collisions
 func _handle_collision(collider) -> void:
-	
+
 	game_over = true
 	print("Game Over! Player collided with an obstacle:", collider.name)
 	animated_sprite.stop()
-
+	death_sound.play()
 	# Call a function to show the Game Over screen
 	show_game_over_screen()
 
 func show_game_over_screen() -> void:
 	var game_over_scene = preload("res://game_over.tscn").instantiate()
-	
 	# Ensure high_score is updated before displaying the GameOver screen
 	if current_score > high_score:
 		high_score = current_score

@@ -11,6 +11,7 @@ var current_score: int = 0
 var high_score: int = 0
 
 func _ready() -> void:
+	
 	start_button.button_down.connect(on_start_pressed)
 	exit_button.button_down.connect(on_exit_pressed)
 

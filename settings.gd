@@ -24,17 +24,21 @@ func _ready() -> void:
 
 func on_easy_mode_selected() -> void:
 	GameSettings.mode = "Easy"
+	GameSettings.update_mode_settings()
 	update_mode_visuals()
 
 func on_hard_mode_selected() -> void:
 	GameSettings.mode = "Hard"
+	GameSettings.update_mode_settings()
 	update_mode_visuals()
 
 func on_music_toggle(enabled: bool) -> void:
 	GameSettings.music_enabled = enabled
+	GameSettings.save_settings() # Save and emit signal
 
 func on_sound_toggle(enabled: bool) -> void:
 	GameSettings.sound_enabled = enabled
+	GameSettings.save_settings() # Save and emit signal
 
 func on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://main_menu.tscn")
@@ -47,3 +51,4 @@ func update_mode_visuals() -> void:
 	elif GameSettings.mode == "Hard":
 		easy_mode_button.modulate = Color(1, 1, 1, 0.5)  # Dimmed
 		hard_mode_button.modulate = Color(1, 1, 1, 1)  # Fully visible
+		
