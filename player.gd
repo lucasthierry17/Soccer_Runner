@@ -13,6 +13,9 @@ const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
 @onready var jump_sound = $JumpSound as AudioStreamPlayer
 @onready var death_sound = $DeathSound as AudioStreamPlayer
 @onready var background_music = $BackgroundMusic as AudioStreamPlayer
+@onready var countdownsound = $CountDownSound as AudioStreamPlayer
+
+
 
 var current_lane = 0 # starting in the middle lane
 var target_x_position: float = 0.0 
@@ -46,7 +49,6 @@ func _ready() -> void:
 	_apply_settings() # Apply initial settings
 	
 func _apply_settings():
-	print("Applying settings: Music: ", GameSettings.music_enabled, ", Sound: ", GameSettings.sound_enabled)
 	if GameSettings.music_enabled:
 		$BackgroundMusic.play() # Assuming you have a MusicPlayer as a child 
 	else: 
@@ -55,9 +57,11 @@ func _apply_settings():
 	if GameSettings.sound_enabled: 
 		jump_sound.volume_db = 0
 		death_sound.volume_db = 0
+		countdownsound.volume_db = 0
 	else: 
 		jump_sound.volume_db = -80
 		death_sound.volume_db = -80
+		countdownsound.volume_db = -80
 		
 	
 	high_score = load_high_score()
@@ -84,7 +88,7 @@ func _apply_settings():
 	countdown_timer.connect("timeout", Callable(self, "_on_countdown_timeout"))
 	add_child(countdown_timer)
 	countdown_timer.start()
-	
+	countdownsound.play()
 	# Lade den gespeicherten Highscore aus den Einstellungen
 	score_label.text = "Score: 0  "
 	

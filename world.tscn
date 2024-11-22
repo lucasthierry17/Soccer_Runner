@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cno840nyxxpw2"]
+[gd_scene load_steps=26 format=3 uid="uid://cno840nyxxpw2"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_rjl68"]
 [ext_resource type="PackedScene" uid="uid://odgtnpypykcy" path="res://terrain_controller.tscn" id="1_wvryj"]
@@ -18,6 +18,7 @@
 [ext_resource type="AudioStream" uid="uid://bgxhh2unndp3h" path="res://cartoon-jump-6462.mp3" id="16_cuekt"]
 [ext_resource type="AudioStream" uid="uid://sc81vcok3jlc" path="res://soccer-stadium-10-6709.mp3" id="16_lcmoc"]
 [ext_resource type="AudioStream" uid="uid://cxx0x1xp4m5o" path="res://soccer-ball-kick-37625.mp3" id="17_krnan"]
+[ext_resource type="AudioStream" uid="uid://cvylutsicbcwm" path="res://arcade-countdown-7007.mp3" id="17_t7pr2"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_om122"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -125,6 +126,9 @@ stream = ExtResource("17_krnan")
 stream = ExtResource("16_lcmoc")
 autoplay = true
 parameters/looping = true
+
+[node name="CountDownSound" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("17_t7pr2")
 
 [node name="TerrainController" parent="." instance=ExtResource("1_wvryj")]
 
