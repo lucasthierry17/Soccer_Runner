@@ -24,7 +24,17 @@ position = Vector2(1387, -552)
 scale = Vector2(2.91551, 3.61247)
 texture = ExtResource("2_lcpsj")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="RoundTimer" type="Timer" parent="."]
+
+[node name="TimerLabel" type="Label" parent="."]
+offset_left = 1055.0
+offset_top = 1115.0
+offset_right = 1467.0
+offset_bottom = 1307.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameTimer" type="Timer" parent="TimerLabel"]
 
 [node name="ScoreLabel" type="Label" parent="."]
 offset_left = 13.0
@@ -41,7 +51,7 @@ offset_right = 1780.0
 offset_bottom = 1057.0
 
 [node name="RedGoal" type="Area2D" parent="."]
-position = Vector2(76, 20)
+position = Vector2(97, 9)
 
 [node name="Sprite2D" type="Sprite2D" parent="RedGoal"]
 position = Vector2(356, 314)
@@ -53,12 +63,12 @@ position = Vector2(358, 318)
 shape = SubResource("RectangleShape2D_ti5ey")
 
 [node name="BlueGoal" type="Area2D" parent="."]
-position = Vector2(530, 334)
+position = Vector2(525, 337)
 scale = Vector2(1.48889, 1.57143)
 
 [node name="Sprite2D" type="Sprite2D" parent="BlueGoal"]
-position = Vector2(476.194, -6.36363)
-scale = Vector2(1.09328, 1.05594)
+position = Vector2(474.515, -5.09103)
+scale = Vector2(1.08395, 1.04196)
 texture = ExtResource("3_0u3uo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlueGoal"]

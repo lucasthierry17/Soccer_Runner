@@ -6,6 +6,9 @@ extends Node2D
 @onready var blue_gate = $BlueGoal
 @onready var target_color_rect = $TargetColorRect
 @onready var score_label = $ScoreLabel  # Score-Label für die Anzeige des Scores
+@onready var timer_label = $TimerLabel
+
+var game_time: float = 10.0
 
 var gates = {}
 var colors = ["red", "green", "blue"]
@@ -42,6 +45,8 @@ func _ready():
 	# Starte das Spiel
 	change_color()
 	
+	timer_label.text = "Time: "+ str(game_time)
+	
 # Wechselt die Farbe
 func change_color():
 	
@@ -59,6 +64,14 @@ func change_color():
 
 	
 func _on_Timer_timeout():
+	game_time -= 1
+	if game_time <= 0:
+		timer.stop()
+		print("Game Over!")
+		get_tree().change_scene_to_file("res://game_over.tscn")
+	else:
+		timer_label.text = "Time: " + str(game_time)
+		
 	change_color()
 	
 # Event-Handler für Tore
