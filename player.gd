@@ -11,7 +11,6 @@ const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
 @export var max_lanes = 1
 @onready var animated_sprite = get_node("AnimatedSprite3D")
 @onready var jump_sound = $JumpSound as AudioStreamPlayer
-@onready var death_sound = $DeathSound as AudioStreamPlayer
 @onready var background_music = $BackgroundMusic as AudioStreamPlayer
 @onready var countdownsound = $CountDownSound as AudioStreamPlayer
 
@@ -56,14 +55,11 @@ func _apply_settings():
 		$BackgroundMusic.stop()
 	if GameSettings.sound_enabled: 
 		jump_sound.volume_db = 0
-		death_sound.volume_db = 0
 		countdownsound.volume_db = 0
 	else: 
 		jump_sound.volume_db = -80
-		death_sound.volume_db = -80
 		countdownsound.volume_db = -80
 		
-	
 	high_score = load_high_score()
 	current_lane = 0
 	update_position()
@@ -88,7 +84,6 @@ func _apply_settings():
 	countdown_timer.connect("timeout", Callable(self, "_on_countdown_timeout"))
 	add_child(countdown_timer)
 	countdown_timer.start()
-	countdownsound.play()
 	# Lade den gespeicherten Highscore aus den Einstellungen
 	score_label.text = "Score: 0  "
 	
@@ -162,6 +157,8 @@ func _update_countdown_position() -> void:
 
 func _on_countdown_timeout() -> void:
 	if countdown_time > 1:
+		if countdown_time == 3: 
+			countdownsound.play()
 		countdown_time -= 1
 		countdown_label.text = str(countdown_time)
 	elif countdown_time == 1:
@@ -245,7 +242,6 @@ func _handle_collision(collider) -> void:
 	game_over = true
 	print("Game Over! Player collided with an obstacle:", collider.name)
 	animated_sprite.stop()
-	death_sound.play()
 	# Call a function to show the Game Over screen
 	show_game_over_screen()
 

@@ -24,11 +24,13 @@ func _ready() -> void:
 
 func on_easy_mode_selected() -> void:
 	GameSettings.mode = "Easy"
+	GameSettings.save_settings()
 	GameSettings.update_mode_settings()
 	update_mode_visuals()
 
 func on_hard_mode_selected() -> void:
 	GameSettings.mode = "Hard"
+	GameSettings.save_settings()
 	GameSettings.update_mode_settings()
 	update_mode_visuals()
 

@@ -15,6 +15,7 @@ var acceleration_rate: float = 1.0
 # Load settings on startup 
 func _ready():
 	load_settings()
+	update_mode_settings() # Apply the loaded mode settings immediately
 	
 # Save settings to file
 func save_settings():
@@ -32,4 +33,14 @@ func load_settings():
 	if config.load("user://settings.cfg") == OK:
 		music_enabled = config.get_value("audio", "music_on", true)
 		sound_enabled = config.get_value("audio", "sound_on", true)
-		mode = config.get_value("gameplay", "mode", "easy")
+		mode = config.get_value("gameplay", "mode", "Easy")
+		
+func update_mode_settings():
+	if mode == "Easy":
+		velocity = 10.0
+		acceleration_rate = 1.005
+	elif mode == "Hard":
+		velocity = 15.0
+		acceleration_rate = 1.01
+	print("Mode updated to: ", mode, " | Velocity: ", velocity, " | Acceleration Rate: ", acceleration_rate)  # Debug print
+	emit_signal("settings_changed")  # Notify other scripts of the change
