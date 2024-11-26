@@ -66,9 +66,16 @@ func change_color():
 func _on_Timer_timeout():
 	game_time -= 1
 	if game_time <= 0:
-		timer.stop()
-		print("Game Over!")
-		get_tree().change_scene_to_file("res://game_over.tscn")
+		
+		if score >= 7:
+			timer.stop()
+			print("Congrats! You successfully won the MiniGame.")
+			get_tree().change_scene_to_file("res://main_menu.tscn")
+		else:
+			timer.stop()
+			print("Game Over!")
+			get_tree().change_scene_to_file("res://game_over.tscn")
+			
 	else:
 		timer_label.text = "Time: " + str(game_time)
 		
@@ -87,3 +94,6 @@ func _check_gate(gate_color: String) -> void:
 		print("Correct! Score: ", score)
 	else:
 		print("Wrong!")
+		timer.stop()
+		print("Game Over! You clicked on the wrong goal.")
+		get_tree().change_scene_to_file("res://game_over.tscn")
