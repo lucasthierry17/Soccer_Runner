@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-#constatns
+#constants
 const SIDE_SPEED = 500.0
 const JUMP_FORCE = 13.0       
 const GRAVITY = 50.0
@@ -13,7 +13,6 @@ const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
 @onready var jump_sound = $JumpSound as AudioStreamPlayer
 @onready var background_music = $BackgroundMusic as AudioStreamPlayer
 @onready var countdownsound = $CountDownSound as AudioStreamPlayer
-
 
 
 var current_lane = 0 # starting in the middle lane

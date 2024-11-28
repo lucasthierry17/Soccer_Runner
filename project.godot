@@ -21,8 +21,8 @@ GameSettings="*res://GameSettings.gd"
 
 [display]
 
-window/size/viewport_width=2304
-window/size/viewport_height=1296
+window/size/viewport_width=900
+window/size/viewport_height=1600
 window/handheld/orientation=1
 
 [input]
