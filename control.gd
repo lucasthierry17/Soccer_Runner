@@ -15,3 +15,10 @@ func _ready():
 func _on_play_button_pressed():
 	# Load and start the main game scene
 	get_tree().change_scene_to_file(game_scene_path)
+	
+# Function to restore the game state after the minigame
+func restore_game_state(state: Dictionary) -> void:
+	var player = $Player  # Adjust the path if necessary
+	if player:
+		player.restore_state(state)
+		print("Game state restored in control.gd!")

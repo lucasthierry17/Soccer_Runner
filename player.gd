@@ -221,10 +221,35 @@ func _handle_collision(collider) -> void:
 	
 	game_over = true
 	print("Game Over! Player collided with an obstacle:", collider.name)
-	animated_sprite.stop()
+	can_move = false
+	
+	# animated_sprite.stop()
+	
+	# save current game state
+	var game_state = {
+		"score": current_score,
+		"lane": current_lane,
+		"position": position
+	}
+	# switch to minigame scene
+	var minigame_scene = preload('res://MiniGame.tscn').instantiate()
+	minigame_scene.set_game_state(game_state)
+	get_tree().root.add_child(minigame_scene)
+	queue_free()
 
 	# Call a function to show the Game Over screen
-	show_game_over_screen()
+	# show_game_over_screen()
+
+func restore_state(state: Dictionary) -> void:
+	current_score = state["score"]
+	current_lane = state["lane"]
+	position = state["position"]
+	
+	score_label.text = "Score: " + str(current_score)
+	update_position()
+	game_over = false
+	can_move = true
+	animated_sprite.play("move")
 
 func show_game_over_screen() -> void:
 	var game_over_scene = preload("res://game_over.tscn").instantiate()
