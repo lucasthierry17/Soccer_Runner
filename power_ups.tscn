@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://327he2j8pvi7"]
+
+[ext_resource type="Script" path="res://power_up.gd" id="1_1utv0"]
+[ext_resource type="PackedScene" uid="uid://dkpj8uerun1kg" path="res://power_up.glb" id="5_1eyfw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8f2vi"]
+
+[node name="PowerUp" type="Area3D"]
+script = ExtResource("1_1utv0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_8f2vi")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("5_1eyfw")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.686778, 0)
