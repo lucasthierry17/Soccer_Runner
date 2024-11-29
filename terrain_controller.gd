@@ -111,3 +111,40 @@ func _load_terrain_scenes(target_path: String) -> void:
 	# Debug output to verify scenes were load
 	if TerrainBlocks.is_empty():
 		print("No terrain blocks were loaded. Check the directory path or file format.")
+
+#Power Ups
+@export var player: CharacterBody3D
+var power_up_scene: PackedScene = preload("res://power_ups.tscn")
+@export var power_up_interval = 30  # Distance interval to spawn power-ups
+
+
+var distance_traveled = 0  # Track the distance covered by the player
+
+# Function to spawn the power-up
+func spawn_power_up():
+	if power_up_scene and player:
+		var power_up_instance = power_up_scene.instantiate()  # Create a new instance
+		add_child(power_up_instance)  # Add to the scene tree
+		power_up_instance.global_transform.origin = calculate_spawn_position()  # Set spawn position
+		#print('spawned power up: ', power_up_instance.global_position)
+
+func _process(delta):
+	# Update distance based on player's speed (adjust based on your implementation)
+	distance_traveled += delta * terrain_velocity
+	
+	# Spawn a power-up every time the interval is reached
+	if distance_traveled >= power_up_interval:
+		spawn_power_up()
+		distance_traveled = 0  # Reset distance for the next interval
+
+# Function to calculate a logical spawn position ahead of the player
+func calculate_spawn_position() -> Vector3:
+	if player:
+		var spawn_distance_ahead = 10.0  # Distance in front of the player
+		var x_random_offset = randf_range(-lane_width, lane_width)  # Randomize x-position within range
+		var y_position = 1.0  # Set desired height for the power-up
+		var z_position = player.global_transform.origin.z + spawn_distance_ahead
+		
+		return Vector3(x_random_offset, y_position, z_position)
+	else:
+		return Vector3(0, 1.0, 0)  # Default position if player is not available
