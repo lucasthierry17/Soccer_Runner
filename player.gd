@@ -1,3 +1,4 @@
+class_name Player
 extends CharacterBody3D
 
 #constants
@@ -223,6 +224,7 @@ func _physics_process(_delta: float) -> void:
 		if collider.collision_layer & OBSTACLE_LAYER != 0:
 			_handle_collision(collider)
 			
+	deplete_stamina(_delta)
 # Funktion zum Starten des Spurwechsels und Initialisieren der Parameter
 func start_lane_switch() -> void:
 	target_x_position = current_lane * lane_width
@@ -257,3 +259,29 @@ func show_game_over_screen() -> void:
 
 	get_tree().root.add_child(game_over_scene)
 	queue_free()  # Remove the player from the scene
+
+# Stamina properties
+@onready var stamina_bar: ProgressBar  = $UI/StaminaBar
+@export var max_stamina = 100
+var current_stamina = max_stamina
+@export var stamina_depletion_rate = 3.0
+@export var stamina_recovery_amount = 20  # Amount of stamina restored by power-up
+
+# Function to reduce stamina
+func deplete_stamina(delta):
+	print(current_stamina)
+	if current_stamina > 0:
+		current_stamina -= stamina_depletion_rate * delta
+		stamina_bar.value = current_stamina
+	else:
+		# If stamina is exhausted, limit movement or slow down character
+		game_over = true  # Example action, adjust as needed
+		print('Stamina ran out')
+		show_game_over_screen()
+
+# Function to increase stamina when power-up is collected
+func add_stamina():
+	print('stamina before: ', current_stamina)
+	#current_stamina = min(current_stamina + stamina_recovery_amount, max_stamina)
+	current_stamina = max_stamina
+	stamina_bar.value = current_stamina
