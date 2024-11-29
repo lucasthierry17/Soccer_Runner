@@ -10,11 +10,13 @@ const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
 @export var lane_width = 1.0
 @export var max_lanes = 1
 @onready var animated_sprite = get_node("AnimatedSprite3D")
+@onready var PauseMenu = get_node("../PauseMenu") 
 @onready var jump_sound = $JumpSound as AudioStreamPlayer
 @onready var background_music = $BackgroundMusic as AudioStreamPlayer
 @onready var countdownsound = $CountDownSound as AudioStreamPlayer
 
 
+var pause_button
 var current_lane = 0 # starting in the middle lane
 var target_x_position: float = 0.0 
 var switch_duration: float = 0.3 # duration of the switch from one lane to another
@@ -33,6 +35,7 @@ var countdown_time = 3  # Countdown starts from 3
 var can_move = false
 var current_score = 0
 var high_score = 0
+var is_paused = false
 
 
 func ease_in_out_quad(t: float) -> float:
@@ -70,6 +73,17 @@ func _apply_settings():
 	score_label.text = "Score: 0 "
 	score_label.scale = Vector2(3, 3)
 	add_child(score_label)  # Add the score label to the scene      
+	
+	pause_button = Button.new()
+	pause_button.text = "||"
+	pause_button.size = Vector2(100, 50)
+	pause_button.position = Vector2(-200, 200)
+	pause_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	
+	var canvas_layer = CanvasLayer.new()
+	add_child(canvas_layer)
+	canvas_layer.add_child(pause_button)
+	pause_button.connect("pressed", Callable(self, "_on_pause_button_pressed"))
 
 	# Reference the existing countdown label in the scene
 	#countdown_label = get_node("StopWatch/Label")
@@ -86,6 +100,15 @@ func _apply_settings():
 	# Lade den gespeicherten Highscore aus den Einstellungen
 	score_label.text = "Score: 0  "
 	
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		toggle_pause()
+		
+func toggle_pause():
+	is_paused = !is_paused
+	get_tree().paused = is_paused
+	PauseMenu.visible = is_paused
+
 func _on_music_toggle_changed(enabled: bool) -> void:
 	if enabled:
 		background_music.play()
@@ -257,3 +280,11 @@ func show_game_over_screen() -> void:
 
 	get_tree().root.add_child(game_over_scene)
 	queue_free()  # Remove the player from the scene
+	
+func _on_pause_button_pressed():
+	is_paused = !is_paused # Toggle zwishcen pause und play
+	get_tree().paused = is_paused
+	if is_paused: 
+		pause_button.text = "Resume"
+	else: 
+		pause_button.text = "||"
