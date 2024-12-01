@@ -246,8 +246,6 @@ func _handle_collision(collider) -> void:
 
 func restore_state(state: Dictionary) -> void:
 	current_score = state["score"]
-	current_lane = state["lane"]
-	position = state["position"]
 	
 	score_label.text = "Score: " + str(current_score)
 	update_position()

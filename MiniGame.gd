@@ -108,24 +108,11 @@ func _on_Timer_timeout():
 	game_time -= 1
 	if game_time <= 0:
 		if score >= 7:
-			timer.stop()
 			print("Congrats! You successfully won the MiniGame.")
-			# reload the main game with the saved state
-			var main_game_scene = preload("res://world.tscn").instantiate()
-			get_tree().root.add_child(main_game_scene)
+			win_game()
 			
-			# restore saved state 
-			var player = main_game_scene.get_node("Player")
-			
-			if player and player.has_method("restore_state"):
-				player.restore_state(main_game_state)
-			# get_tree().change_scene_to_file("res://main_menu.tscn")
-			queue_free()
 		else:
-			timer.stop()
-			print("Game Over!")
-			get_tree().change_scene_to_file("res://game_over.tscn")
-			queue_free()
+			lose_game()
 	else:
 		timer_label.text = "Time: " + str(game_time)
 		
@@ -167,8 +154,12 @@ func update_mistake_icons():
 		icon.modulate = Color(1, 1, 1) if i < mistakes else Color(0.5, 0.5, 0.5)
 		
 func win_game():
-	var main_game_scene = preload("res://world.tscn").instantiate()
-	get_tree().root.add_child(main_game_scene)
+	timer.stop()
+	queue_free()
+	var main_game_scene = "res://world.tscn"
+	get_tree().change_scene_to_file(main_game_scene)
+	#var main_game_scene = preload("res://world.tscn").instantiate()
+	#get_tree().root.add_child(main_game_scene)
 	
 	# restore saved state 
 	var player = main_game_scene.get_node("Player")
@@ -176,7 +167,7 @@ func win_game():
 	if player and player.has_method("restore_state"):
 		player.restore_state(main_game_state)
 	# get_tree().change_scene_to_file("res://main_menu.tscn")
-	queue_free()
+	#queue_free()
 	
 func lose_game():
 	timer.stop()
