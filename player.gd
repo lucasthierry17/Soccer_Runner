@@ -42,6 +42,8 @@ var can_move = false
 var current_score = 0
 var high_score = 0
 
+var is_paused # for the pause button
+
 func ease_in_out_quad(t: float) -> float:
 	if t < 0.5: 
 		return 2 * t * t 
@@ -157,52 +159,54 @@ func _on_countdown_timeout() -> void:
 
 func _physics_process(_delta: float) -> void:
 		# If the game is over or countdown hasn't finished, stop updating
-	if game_over or not can_move:
+	if game_over or not can_move or is_paused:
 		return
 		# Smooth lane transition using easing if switching lanes
-	if is_switching:
-		switch_time += _delta
-		var t = min(switch_time / switch_duration, 1.0)
-		position.x = lerp(position.x, target_x_position, ease_in_out_quad(t))
+	if not is_paused:
 		
-		if t >= 1.0:
-			is_switching = false
+		if is_switching:
+			switch_time += _delta
+			var t = min(switch_time / switch_duration, 1.0)
+			position.x = lerp(position.x, target_x_position, ease_in_out_quad(t))
+			
+			if t >= 1.0:
+				is_switching = false
 
-	# Apply gravity when not on the floor
-	if not is_on_floor():
-		velocity.y -= GRAVITY * _delta  # Apply gravity while in the air
-		animated_sprite.play("jump")  # Play jump animation while in the air
-	else:
-		# Reset Y velocity when on the floor and prepare for jump
-		velocity.y = 0
-
-		if jump_requested:
-			velocity.y = JUMP_FORCE  # Apply jump force
-			jump_requested = false
-			animated_sprite.play("jump")  # Play jump animation
+		# Apply gravity when not on the floor
+		if not is_on_floor():
+			velocity.y -= GRAVITY * _delta  # Apply gravity while in the air
+			animated_sprite.play("jump")  # Play jump animation while in the air
 		else:
-			# Play "move" animation when grounded and not jumping
-			animated_sprite.play("move")
+			# Reset Y velocity when on the floor and prepare for jump
+			velocity.y = 0
 
-	# Move the player using built-in velocity and detect collisions
-	move_and_slide()
+			if jump_requested:
+				velocity.y = JUMP_FORCE  # Apply jump force
+				jump_requested = false
+				animated_sprite.play("jump")  # Play jump animation
+			else:
+				# Play "move" animation when grounded and not jumping
+				animated_sprite.play("move")
 
-	# Track terrain movement and update score
-	terrain_distance_moved += _delta * 20  # Replace with your terrain movement speed
-	if terrain_distance_moved >= 1.0:  # Assuming 1 unit per row
-		rows_passed += 1
-		current_score = rows_passed
-		score_label.text = "Score: " + str(current_score)
-		terrain_distance_moved = 0.0  # Reset for the next row
+		# Move the player using built-in velocity and detect collisions
+		move_and_slide()
 
-	# Check for collisions with obstacles
-	for i in range(get_slide_collision_count()):
-		var collision = get_slide_collision(i)
-		var collider = collision.get_collider()
-		
-		# Check if the collider is on the obstacle layer
-		if collider.collision_layer & OBSTACLE_LAYER != 0:
-			_handle_collision(collider)
+		# Track terrain movement and update score
+		terrain_distance_moved += _delta * 20  # Replace with your terrain movement speed
+		if terrain_distance_moved >= 1.0:  # Assuming 1 unit per row
+			rows_passed += 1
+			current_score = rows_passed
+			score_label.text = "Score: " + str(current_score)
+			terrain_distance_moved = 0.0  # Reset for the next row
+
+		# Check for collisions with obstacles
+		for i in range(get_slide_collision_count()):
+			var collision = get_slide_collision(i)
+			var collider = collision.get_collider()
+			
+			# Check if the collider is on the obstacle layer
+			if collider.collision_layer & OBSTACLE_LAYER != 0:
+				_handle_collision(collider)
 			
 # Funktion zum Starten des Spurwechsels und Initialisieren der Parameter
 func start_lane_switch() -> void:

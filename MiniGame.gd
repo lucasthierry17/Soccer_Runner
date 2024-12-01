@@ -1,11 +1,17 @@
 extends Node2D
 
+const MAX_SCORE = 7
+const MAX_MISTAKES = 2
+
+@onready var score_icons = $ScoreIcons
+@onready var mistake_icons = $MistakeIcons
+
+
 # Variablen für die Tore, Farben und das Score-Label
 @onready var red_gate = $RedGoal
 @onready var green_gate = $GreenGoal
 @onready var blue_gate = $BlueGoal
 @onready var target_color_rect = $TargetColorRect
-@onready var score_label = $ScoreLabel  # Score-Label für die Anzeige des Scores
 @onready var timer_label = $TimerLabel
 @onready var countdown_label = $Countdown # Countdown-Label
 
@@ -16,6 +22,7 @@ var gates = {}
 var colors = ["red", "green", "blue"]
 var target_color: String = ""
 var score: int = 0
+var mistakes: int = 0
 var timer: Timer
 
 
@@ -38,9 +45,14 @@ func _ready():
 	timer.wait_time = 1.0  # Jede Sekunde
 	timer.one_shot = false  # Wiederholt sich
 	timer.connect("timeout", Callable(self, "_on_Timer_timeout"))
-
-	# Setze die Textfarbe des Score-Labels auf Weiß, falls es unsichtbar ist
-	score_label.modulate = Color(1, 1, 1)
+	
+	for i in range(MAX_SCORE):
+		var icon = score_icons.get_child(i)
+		icon.modulate = Color(0.5, 0.5, 0.5)
+		
+	for i in range(MAX_MISTAKES):
+		var icon = mistake_icons.get_child(i)
+		icon.modulate = Color(0.5, 0.5, 0.5)
 
 	# Countdown anzeigen und dann das Spiel starten
 	await start_countdown()
@@ -63,6 +75,12 @@ func start_countdown() -> void:
 
 
 func start_game():
+	# Reset game state
+	score = 0
+	mistakes = 0
+	update_score_icons()
+	update_mistake_icons()
+	
 	# Timer starten
 	timer.start()
 	timer_label.text = "Time: " + str(game_time)
@@ -123,15 +141,47 @@ func _on_Gate_pressed(viewport: Object, event: InputEvent, shape_idx: int, gate_
 # Prüft, ob die angeklickte Farbe korrekt ist
 func _check_gate(gate_color: String) -> void:
 	if gate_color == target_color:
-		score += 1 # Erhöhe den Score bei richtiger Auswahl
-		score_label.text = "Score: " + str(score) # Score im Label aktualisieren
-		print("Correct! Score: ", score)
+		correct_choice()
+
 	else:
-		print("Wrong!")
-		timer.stop()
-		print("Game Over! You clicked on the wrong goal.")
-		get_tree().change_scene_to_file("res://game_over.tscn")
+		wrong_choice()
 		
+func correct_choice():
+	score += 1
+	update_score_icons()
+	
+func wrong_choice():
+	mistakes += 1
+	update_mistake_icons()
+	if mistakes >= MAX_MISTAKES:
+		lose_game()
+		
+func update_score_icons():
+	for i in range(MAX_SCORE):
+		var icon = score_icons.get_child(i)
+		icon.modulate = Color(1, 1, 1) if i < score else Color(0.5, 0.5, 0.5)
+		
+func update_mistake_icons():
+	for i in range(MAX_MISTAKES):
+		var icon = mistake_icons.get_child(i)
+		icon.modulate = Color(1, 1, 1) if i < mistakes else Color(0.5, 0.5, 0.5)
+		
+func win_game():
+	var main_game_scene = preload("res://world.tscn").instantiate()
+	get_tree().root.add_child(main_game_scene)
+	
+	# restore saved state 
+	var player = main_game_scene.get_node("Player")
+	
+	if player and player.has_method("restore_state"):
+		player.restore_state(main_game_state)
+	# get_tree().change_scene_to_file("res://main_menu.tscn")
+	queue_free()
+	
+func lose_game():
+	timer.stop()
+	get_tree().change_scene_to_file("res://game_over.tscn")
+
 
 func set_game_state(state: Dictionary) -> void:
 	main_game_state = state
