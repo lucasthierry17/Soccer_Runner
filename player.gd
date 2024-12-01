@@ -35,7 +35,6 @@ var countdown_time = 3  # Countdown starts from 3
 var can_move = false
 var current_score = 0
 var high_score = 0
-var is_paused = false
 
 
 func ease_in_out_quad(t: float) -> float:
@@ -47,6 +46,8 @@ func ease_in_out_quad(t: float) -> float:
 func _ready() -> void:
 	# connect to GameSettings signals
 	GameSettings.connect("settings_changed", Callable(self, "_apply_settings"))
+	PauseMenu.visible = false
+	_center_pause_menu()
 	_apply_settings() # Apply initial settings
 	
 func _apply_settings():
@@ -79,6 +80,7 @@ func _apply_settings():
 	pause_button.size = Vector2(100, 50)
 	pause_button.position = Vector2(-200, 200)
 	pause_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	PauseMenu.position = get_viewport().get_visible_rect().size / 2 - PauseMenu.size / 2
 	
 	var canvas_layer = CanvasLayer.new()
 	add_child(canvas_layer)
@@ -105,9 +107,24 @@ func _input(event):
 		toggle_pause()
 		
 func toggle_pause():
-	is_paused = !is_paused
-	get_tree().paused = is_paused
-	PauseMenu.visible = is_paused
+	GameSettings.is_paused = !GameSettings.is_paused
+	if GameSettings.is_paused:
+		# Manually stop game logic, but don't pause the entire scene tree
+		get_tree().paused = false  # Keep the scene running, but we'll manage pausing
+		PauseMenu.visible = true
+		animated_sprite.stop()
+		
+		# Disable player movement and other game logic that should be paused
+		can_move = false
+		#game_over = true  # Stop any further gameplay logic
+
+	else:
+		# Resume gameplay
+		PauseMenu.visible = false
+		# Re-enable player movement and gameplay logic
+		can_move = true
+		game_over = false  # Allow gameplay to continue
+
 
 func _on_music_toggle_changed(enabled: bool) -> void:
 	if enabled:
@@ -199,7 +216,7 @@ func _on_countdown_timeout() -> void:
 
 func _physics_process(_delta: float) -> void:
 		# If the game is over or countdown hasn't finished, stop updating
-	if game_over or not can_move:
+	if game_over or not can_move or GameSettings.is_paused:
 		return
 		# Smooth lane transition using easing if switching lanes
 	if is_switching:
@@ -282,9 +299,20 @@ func show_game_over_screen() -> void:
 	queue_free()  # Remove the player from the scene
 	
 func _on_pause_button_pressed():
-	is_paused = !is_paused # Toggle zwishcen pause und play
-	get_tree().paused = is_paused
-	if is_paused: 
-		pause_button.text = "Resume"
-	else: 
-		pause_button.text = "||"
+	GameSettings.is_paused = !GameSettings.is_paused # Toggle zwishcen pause und play
+	get_tree().paused = GameSettings.is_paused
+	PauseMenu.visible = GameSettings.is_paused
+		
+func _center_pause_menu():
+	var viewport_size = get_viewport().get_visible_rect().size
+	PauseMenu.position = (viewport_size - PauseMenu.size) / 2
+
+func _on_resume_pressed() -> void:
+	if GameSettings.is_paused:
+		toggle_pause()  # Resume the game by toggling pause state
+		PauseMenu.visible = false  # Hide the pause menu
+
+func _on_quit_pressed():
+	get_tree().paused = false  # Ensure the game is unpaused before switching scenes
+	save_high_score(current_score)  # Save the current score if needed
+	get_tree().change_scene_to_file("res://game_over.tscn")  # Load the Game Over scene

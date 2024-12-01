@@ -11,7 +11,7 @@ var sound_enabled: bool = true
 # Default values for Easy mode
 var velocity: float = 5.0
 var acceleration_rate: float = 1.0
-
+var is_paused = false
 # Load settings on startup 
 func _ready():
 	load_settings()

@@ -27,6 +27,8 @@ func _ready() -> void:
 	
 func _physics_process(delta: float) -> void:
 	# Only progress terrain if can_move is true
+	if GameSettings.is_paused:
+		return
 	if can_move:
 		_progress_terrain(delta)
 		# Increase the terrain_velocity by 0.2% per second
