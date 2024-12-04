@@ -23,7 +23,12 @@ func _ready() -> void:
 	high_score_button.disabled = true
 
 func set_score(score: int) -> void:
-	current_score = score
+	self.current_score = score
+	#score_button.text = "Score: %d" % self.current_score
+	
+func set_high_score(high_score: int) -> void:
+	self.high_score = high_score
+	high_score_button.text = "High Score: %d" % self.high_score
 
 func on_start_pressed() -> void:
 	get_tree().change_scene_to_packed(start_game)

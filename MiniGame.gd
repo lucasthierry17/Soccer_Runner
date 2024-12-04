@@ -1,13 +1,10 @@
 extends Node2D
 
-const MAX_SCORE = 7
+const MAX_SCORE = 1
 const MAX_MISTAKES = 2
 
 @onready var score_icons = $ScoreIcons
 @onready var mistake_icons = $MistakeIcons
-
-
-# Variablen für die Tore, Farben und das Score-Label
 @onready var red_gate = $RedGoal
 @onready var green_gate = $GreenGoal
 @onready var blue_gate = $BlueGoal
@@ -17,17 +14,14 @@ const MAX_MISTAKES = 2
 
 var game_time: float = 10.0
 var main_game_state: Dictionary # store the passed Game State
-
 var gates = {}
 var colors = ["red", "green", "blue"]
 var target_color: String = ""
 var score: int = 0
 var mistakes: int = 0
 var timer: Timer
-
 var current_score: int
 var high_score: int
-
 
 func _ready():
 	# Speichere die Tore im Dictionary für den schnellen Zugriff
@@ -87,9 +81,7 @@ func start_game():
 	# Timer starten
 	timer.start()
 	timer_label.text = "Time: " + str(game_time)
-	
-	# Starte das Spiel
-	change_color()
+	change_color() # startet das Spiel
 
 
 # Wechselt die Farbe
@@ -110,7 +102,7 @@ func change_color():
 func _on_Timer_timeout():
 	game_time -= 1
 	if game_time <= 0:
-		if score >= 7:
+		if score >= 1:
 			print("Congrats! You successfully won the MiniGame.")
 			win_game()
 			
@@ -158,30 +150,17 @@ func update_mistake_icons():
 		
 func win_game():
 	timer.stop()
-	
-	#var main_game_scene = preload("res://world.tscn").instantiate()
-	# main_game_scene.set("game_state", main_game_state)
-	# get_tree().root.add_child(main_game_scene)
 	get_tree().change_scene_to_file("res://world.tscn")
-	#var main_game_scene = preload("res://world.tscn").instantiate()
-	#get_tree().root.add_child(main_game_scene)
-	
-	# restore saved state 
-	#var player = main_game_scene.get_node("Player")
-	
-	#if player and player.has_method("restore_state"):
-	#	player.restore_state(main_game_state)
-	#get_tree().change_scene_to_file("res://main_menu.tscn")
 	queue_free()
 	
 func lose_game():
 	timer.stop()
-	# save_current_score(0)
 	get_tree().change_scene_to_file("res://game_over.tscn")
 
-
 func set_game_state(state: Dictionary) -> void:
-	main_game_state = state
+	self.main_game_state = state
+	self.current_score = state.get("score", 0)
+	
 	
 func load_high_score() -> int:
 	var file = FileAccess.open("user://high_score.save", FileAccess.READ)

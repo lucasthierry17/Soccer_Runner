@@ -3,15 +3,12 @@ extends CharacterBody3D
 const SIDE_SPEED = 500.0
 const JUMP_FORCE = 13.0       
 const GRAVITY = 50.0
+const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
+
 
 @export var lane_width = 1.0
 @export var max_lanes = 1
-var current_lane = 0
 
-var target_x_position: float = 0.0
-var switch_duration: float = 0.3
-var switch_time: float = 0.0
-var is_switching: bool = false
 
 @onready var animated_sprite = get_node("AnimatedSprite3D")
 @onready var jump_sound = $JumpSound as AudioStreamPlayer
@@ -19,36 +16,30 @@ var is_switching: bool = false
 @onready var background_sound = $BackgroundMusic as AudioStreamPlayer
 
 var game_over = false
-
+var current_lane = 0
+var target_x_position: float = 0.0
+var switch_duration: float = 0.3
+var switch_time: float = 0.0
+var is_switching: bool = false
 var swipe_start_position: Vector2 = Vector2.ZERO
 var swipe_threshold: float = 100.0
 var jump_swipe_threshold: float = 100.0  # Höherer Wert für deutliche Unterscheidung
-# Variable to track jump request
 var jump_requested: bool = false
-
-# Define the obstacle collision layer (Layer 2)
-const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
-
-# Score variables
 var score_label: Label
 var rows_passed = 0  # Tracks rows passed as a score
 var terrain_distance_moved = 0.0  # Tracks terrain movement along the z-axis
-
-# Countdown variables
 var countdown_label: Label
 var countdown_time = 3  # Countdown starts from 3
 var can_move = false
-
 var current_score: int
 var high_score = 0
-
 var is_paused # for the pause button
-
 var game_state: Dictionary = {}
 var score: int
-
 var old_score: int
 var rows_score: int
+var times_died: int = 0
+
 
 func ease_in_out_quad(t: float) -> float:
 	if t < 0.5: 
@@ -58,15 +49,11 @@ func ease_in_out_quad(t: float) -> float:
 
 func _ready():
 	high_score = load_high_score()
-	
 	old_score = load_current_score()
 	
 	if old_score == null:
 		old_score = 0
 		
-	print(old_score)
-		
-	
 	current_lane = 0
 	update_position()
 	animated_sprite.play("move")
@@ -79,10 +66,6 @@ func _ready():
 	score_label.text = "Score: " + str(old_score)
 	score_label.scale = Vector2(3, 3)
 	add_child(score_label)  # Add the score label to the scene 
-		 
-
-	# Reference the existing countdown label in the scene
-	#countdown_label = get_node("StopWatch/Label")
 	countdown_label = get_node("../StopWatch/Label")
 	_update_countdown_position()  # Center the countdown label
 
@@ -93,9 +76,6 @@ func _ready():
 	countdown_timer.connect("timeout", Callable(self, "_on_countdown_timeout"))
 	add_child(countdown_timer)
 	countdown_timer.start()
-	
-	# Lade den gespeicherten Highscore aus den Einstellungen
-	# score_label.text = "Score: 0  "
 	
 func load_high_score() -> int:
 	var file = FileAccess.open("user://high_score.save", FileAccess.READ)
@@ -256,18 +236,20 @@ func _handle_collision(collider) -> void:
 	
 	game_over = true
 	print("Game Over! Player collided with an obstacle:", collider.name)
-	can_move = false
+	can_move = false	
+	if GameSettings.times_died == 0: 
+		GameSettings.times_died += 1
+		background_sound.stop()
+		save_state()
+		save_current_score(current_score)
+		# switch to minigame scene
+		var minigame_scene = preload('res://MiniGame.tscn').instantiate()
+		minigame_scene.set_game_state(self.game_state)
+		get_tree().root.add_child(minigame_scene)
 	
-	# animated_sprite.stop()
-	
-	
-	save_state()
-	save_current_score(current_score)
-	# switch to minigame scene
-	var minigame_scene = preload('res://MiniGame.tscn').instantiate()
-	minigame_scene.set_game_state(self.game_state)
-	get_tree().root.add_child(minigame_scene)
-	#queue_free()
+	else:
+		show_game_over_screen()
+		
 
 	# Call a function to show the Game Over screen
 	# show_game_over_screen()
