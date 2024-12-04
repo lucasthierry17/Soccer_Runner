@@ -125,7 +125,6 @@ func toggle_pause():
 		get_tree().paused = false
 		PauseMenu.visible = false # disable the menu
 		can_move = true # player can move again
-		game_over = false  # Allow gameplay to continue
 		score_label.text = "Score: " + str(current_score)
 
 
@@ -267,7 +266,7 @@ func start_lane_switch() -> void:
 	is_switching = true
 
 	# Notify the ball to switch to the same lane
-	var ball = get_node("Ball")  # Adjust the path if necessary
+	var ball = get_node("res://ball.tscn/RigidBody3D")  # Adjust the path if necessary
 	if ball:
 		ball.update_lane(current_lane)
 		print("Player switched lane to:", current_lane)
