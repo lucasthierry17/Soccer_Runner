@@ -43,7 +43,6 @@ var rows_score: int
 var times_died: int = 0
 
 
-
 func ease_in_out_quad(t: float) -> float:
 	if t < 0.5: 
 		return 2 * t * t 
@@ -120,12 +119,14 @@ func toggle_pause():
 		PauseMenu.visible = true
 		animated_sprite.stop()
 		can_move = false
+		save_current_score(current_score)
 		
 	else:
-		# Resume gameplay
+		get_tree().paused = false
 		PauseMenu.visible = false # disable the menu
 		can_move = true # player can move again
 		game_over = false  # Allow gameplay to continue
+		score_label.text = "Score: " + str(current_score)
 
 
 func _on_music_toggle_changed(enabled: bool) -> void:
@@ -250,7 +251,7 @@ func _physics_process(delta: float) -> void:
 	terrain_distance_moved += delta * 20
 	if terrain_distance_moved >= 1.0:
 		rows_passed += 1
-		current_score = rows_passed
+		current_score = rows_passed + old_score
 		score_label.text = "Score: " + str(current_score)
 		terrain_distance_moved = 0.0
 
@@ -279,14 +280,13 @@ func update_position():
 
 func _handle_collision(collider) -> void:
 	game_over = true
-	print("Game Over! Player collided with an obstacle:", collider.name)
 	can_move = false	
 	if GameSettings.times_died == 0: 
 		GameSettings.times_died += 1
 		background_music.stop()
+		pause_button.visible = false
 		save_state()
 		save_current_score(current_score)
-		# switch to minigame scene
 		var minigame_scene = preload('res://MiniGame.tscn').instantiate()
 		minigame_scene.set_game_state(self.game_state)
 		get_tree().root.add_child(minigame_scene)
@@ -296,12 +296,12 @@ func _handle_collision(collider) -> void:
 		
 	animated_sprite.stop()
 
-func restore_state(score: int) -> void:
+func restore_state(saved_score: int) -> void:
 
 	# Restore the score
-	self.score = current_score  # Update the current score variable
+	self.score = saved_score  # Update the current score variable
 	
-	score_label.text = "Score: " + str(score)
+	score_label.text = "Score: " + str(current_score)
 	update_position()
 	game_over = false
 	can_move = true
