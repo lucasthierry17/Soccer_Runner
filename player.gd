@@ -44,6 +44,9 @@ var high_score = 0
 
 var is_paused # for the pause button
 
+var game_state: Dictionary = {}
+var score: int
+
 func ease_in_out_quad(t: float) -> float:
 	if t < 0.5: 
 		return 2 * t * t 
@@ -52,6 +55,23 @@ func ease_in_out_quad(t: float) -> float:
 
 func _ready():
 	high_score = load_high_score()
+	
+	# Default score is 0 if no state is passed
+	var initial_score = 0
+	
+	# doesn't work
+	#if get_tree().has_current_scene() and get_tree().current_scene.get("game_state") != null:
+		#var game_state = get_tree().current_scene.get("game_state")
+		#initial_score = game_state.get("score", 0)  # Get previous score if it exists
+		
+	# Check if the current scene has game_state
+	if "game_state" in self:
+		var game_state = self.game_state
+		initial_score = game_state.get("score", 0)
+	else:
+		self.game_state = {}  # Initialize an empty game state
+ 
+	
 	current_lane = 0
 	update_position()
 	animated_sprite.play("move")
@@ -59,9 +79,13 @@ func _ready():
 	# Initialize score label
 	score_label = Label.new()
 	score_label.position = Vector2(80, 80)  # Position at the top-left corner
-	score_label.text = "Score: 0"
+	
+	restore_state(initial_score)
+	
+	# score_label.text = "Score: " + str(current_score)
 	score_label.scale = Vector2(3, 3)
-	add_child(score_label)  # Add the score label to the scene      
+	add_child(score_label)  # Add the score label to the scene 
+		 
 
 	# Reference the existing countdown label in the scene
 	#countdown_label = get_node("StopWatch/Label")
@@ -77,7 +101,7 @@ func _ready():
 	countdown_timer.start()
 	
 	# Lade den gespeicherten Highscore aus den Einstellungen
-	score_label.text = "Score: 0  "
+	# score_label.text = "Score: 0  "
 	
 func load_high_score() -> int:
 	var file = FileAccess.open("user://high_score.save", FileAccess.READ)
@@ -230,28 +254,33 @@ func _handle_collision(collider) -> void:
 	# animated_sprite.stop()
 	
 	# save current game state
-	var game_state = {
-		"score": current_score,
-		"lane": current_lane,
-		"position": position
-	}
+	var game_score = current_score
+	
+	save_state()
 	# switch to minigame scene
 	var minigame_scene = preload('res://MiniGame.tscn').instantiate()
-	minigame_scene.set_game_state(game_state)
+	minigame_scene.set_game_state(self.game_state)
 	get_tree().root.add_child(minigame_scene)
-	queue_free()
+	#queue_free()
 
 	# Call a function to show the Game Over screen
 	# show_game_over_screen()
 
-func restore_state(state: Dictionary) -> void:
-	current_score = state["score"]
+func restore_state(score: int) -> void:
+
+	# Restore the score
+	self.score = current_score  # Update the current score variable
 	
-	score_label.text = "Score: " + str(current_score)
+	score_label.text = "Score: " + str(score)
 	update_position()
 	game_over = false
 	can_move = true
 	animated_sprite.play("move")
+	
+func save_state() -> void:
+	self.game_state = {
+		"score": current_score
+	}
 
 func show_game_over_screen() -> void:
 	var game_over_scene = preload("res://game_over.tscn").instantiate()

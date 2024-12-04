@@ -155,9 +155,11 @@ func update_mistake_icons():
 		
 func win_game():
 	timer.stop()
-	queue_free()
-	var main_game_scene = "res://world.tscn"
-	get_tree().change_scene_to_file(main_game_scene)
+	
+	var main_game_scene = preload("res://world.tscn").instantiate()
+	main_game_scene.set("game_state", main_game_state)
+	get_tree().root.add_child(main_game_scene)
+	# get_tree().change_scene_to_file(main_game_scene)
 	#var main_game_scene = preload("res://world.tscn").instantiate()
 	#get_tree().root.add_child(main_game_scene)
 	
@@ -166,8 +168,8 @@ func win_game():
 	
 	if player and player.has_method("restore_state"):
 		player.restore_state(main_game_state)
-	# get_tree().change_scene_to_file("res://main_menu.tscn")
-	#queue_free()
+	get_tree().change_scene_to_file("res://main_menu.tscn")
+	queue_free()
 	
 func lose_game():
 	timer.stop()
@@ -176,3 +178,4 @@ func lose_game():
 
 func set_game_state(state: Dictionary) -> void:
 	main_game_state = state
+	

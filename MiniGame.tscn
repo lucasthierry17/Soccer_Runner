@@ -94,7 +94,7 @@ position = Vector2(883.544, -23.8636)
 shape = SubResource("RectangleShape2D_ef76g")
 
 [node name="ScoreIcons" type="HBoxContainer" parent="."]
-anchors_preset = -1
+anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = -182.0
 offset_top = 559.0
@@ -139,7 +139,6 @@ texture = ExtResource("6_aba86")
 expand_mode = 2
 
 [node name="MistakeIcons" type="HBoxContainer" parent="."]
-anchors_preset = -1
 offset_left = 1940.0
 offset_top = 559.0
 offset_right = 2221.0
