@@ -222,7 +222,7 @@ shadow_mesh = SubResource("ArrayMesh_sy8mm")
 [sub_resource type="BoxShape3D" id="BoxShape3D_ir8nq"]
 size = Vector3(2.46228, 12.6358, 10.6517)
 
-[node name="TerrainBlock_1" type="MeshInstance3D"]
+[node name="TerrainBlock_2" type="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 0, 10)
 layers = 9
 material_override = SubResource("StandardMaterial3D_c5iwb")

@@ -4,37 +4,6 @@ extends CharacterBody3D
 const SIDE_SPEED = 500.0
 const JUMP_FORCE = 13.0       
 const GRAVITY = 50.0
-<<<<<<< HEAD
-
-@export var lane_width = 1.0
-@export var max_lanes = 1
-var current_lane = 0
-
-var target_x_position: float = 0.0
-var switch_duration: float = 0.3
-var switch_time: float = 0.0
-var is_switching: bool = false
-
-@onready var animated_sprite = get_node("AnimatedSprite3D")
-@onready var jump_sound = $JumpSound as AudioStreamPlayer
-@onready var death_sound = $DeathSound as AudioStreamPlayer
-@onready var background_sound = $BackgroundMusic as AudioStreamPlayer
-
-
-var game_over = false
-
-var swipe_start_position: Vector2 = Vector2.ZERO
-var swipe_threshold: float = 100.0
-var jump_swipe_threshold: float = 100.0  # Higher value for clearer distinction
-var jump_requested: bool = false  # Track jump requests
-
-const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
-
-var score_label: Label
-var rows_passed = 0  # Tracks rows passed as a score
-var terrain_distance_moved = 0.0  # Tracks terrain movement along the z-axis
-
-=======
 const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
 
 # variables
@@ -61,7 +30,6 @@ var jump_requested: bool = false # to handle the jump
 var score_label: Label
 var rows_passed = 0  # Tracks rows passed as a score
 var terrain_distance_moved = 0.0  # Tracks terrain movement along the z-axis
->>>>>>> pause
 var countdown_label: Label
 var countdown_time = 3  # Countdown starts from 3
 var can_move = false
@@ -102,12 +70,6 @@ func _apply_settings():
 
 	# Additional initialization for the game
 	score_label = Label.new()
-<<<<<<< HEAD
-	score_label.position = Vector2(80, 80)
-	score_label.text = "Score: 0"
-	score_label.scale = Vector2(3, 3)
-	add_child(score_label)
-=======
 	score_label.position = Vector2(80, 80)  # Position at the top-left corner
 	score_label.text = "Score: 0 "
 	score_label.scale = Vector2(3, 3)
@@ -124,7 +86,6 @@ func _apply_settings():
 	add_child(canvas_layer)
 	canvas_layer.add_child(pause_button)
 	pause_button.connect("pressed", Callable(self, "_on_pause_button_pressed"))
->>>>>>> pause
 
 	countdown_label = get_node("../StopWatch/Label")
 	_update_countdown_position()
@@ -135,11 +96,6 @@ func _apply_settings():
 	countdown_timer.connect("timeout", Callable(self, "_on_countdown_timeout"))
 	add_child(countdown_timer)
 	countdown_timer.start()
-<<<<<<< HEAD
-
-=======
-	# Lade den gespeicherten Highscore aus den Einstellungen
-	score_label.text = "Score: 0  "
 	
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
@@ -173,7 +129,6 @@ func _on_music_toggle_changed(enabled: bool) -> void:
 		background_music.stop()
 		background_music.volume_db = -80 # Mute it entirely
 		
->>>>>>> pause
 func load_high_score() -> int:
 	var file = FileAccess.open("user://high_score.save", FileAccess.READ)
 	if file:
@@ -245,14 +200,9 @@ func _on_countdown_timeout() -> void:
 	else:
 		countdown_label.visible = false
 
-<<<<<<< HEAD
 func _physics_process(delta: float) -> void:
-	if game_over or not can_move:
-=======
-func _physics_process(_delta: float) -> void:
 		# If the game is over or countdown hasn't finished, stop updating
 	if game_over or not can_move or GameSettings.is_paused:
->>>>>>> pause
 		return
 
 	if is_switching:
@@ -308,34 +258,20 @@ func update_position():
 	switch_time = 0.0
 
 func _handle_collision(collider) -> void:
-<<<<<<< HEAD
-	game_over = true
-	print("Game Over! Player collided with an obstacle:", collider.name)
-	animated_sprite.stop()
-=======
-
 	game_over = true
 	print("Game Over! Player collided with an obstacle:", collider.name)
 	animated_sprite.stop()
 	# Call a function to show the Game Over screen
->>>>>>> pause
 	show_game_over_screen()
 
 func show_game_over_screen() -> void:
 	var game_over_scene = preload("res://game_over.tscn").instantiate()
-<<<<<<< HEAD
-=======
-	# Ensure high_score is updated before displaying the GameOver screen
->>>>>>> pause
 	if current_score > high_score:
 		high_score = current_score
 		save_high_score(high_score)
 	game_over_scene.set_score(current_score)
 	game_over_scene.high_score = high_score
 	get_tree().root.add_child(game_over_scene)
-<<<<<<< HEAD
-	queue_free()
-=======
 	queue_free()  # Remove the player from the scene
 	
 func _on_pause_button_pressed():
@@ -356,4 +292,3 @@ func _on_quit_pressed():
 	get_tree().paused = false  # Ensure the game is unpaused before switching scenes
 	save_high_score(current_score)  # Save the current score if needed
 	get_tree().change_scene_to_file("res://game_over.tscn")  # Load the Game Over scene
->>>>>>> pause

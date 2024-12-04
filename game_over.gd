@@ -10,15 +10,8 @@ var current_score: int = 0
 var high_score: int = 0
 
 func _ready() -> void:
-<<<<<<< HEAD
-	# Verbinde die Buttons mit den entsprechenden Funktionen
-	start_button.pressed.connect(_on_start_pressed)
-	exit_button.pressed.connect(_on_exit_pressed)
-=======
-	
-	start_button.button_down.connect(on_start_pressed)
-	exit_button.button_down.connect(on_exit_pressed)
->>>>>>> pause
+	start_button.button_down.connect(_on_start_pressed)
+	exit_button.button_down.connect(_on_exit_pressed)
 
 	# Zeige die Punktestände an
 	score_button.text = "Score: %d" % current_score
