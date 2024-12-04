@@ -5,21 +5,27 @@
 
 [sub_resource type="SystemFont" id="SystemFont_vsus4"]
 font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_6gn76"]
 font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_cfvxk"]
 font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_4d2sj"]
 font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_71gpn"]
 font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_cr61y"]
 font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
 
 [node name="Settings_Screen" type="Control"]
 layout_mode = 3
@@ -44,11 +50,8 @@ texture = ExtResource("2_jpdl2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 24.0
+offset_bottom = 24.0
 scale = Vector2(0.998796, 1)
 theme_override_constants/margin_left = 12
 theme_override_constants/margin_top = 12
@@ -124,6 +127,7 @@ theme_override_font_sizes/font_size = 20
 text = "Sounds"
 
 [node name="HSeparator4" type="HSeparator" parent="VBoxContainer/Sounds"]
+layout_mode = 0
 offset_top = -142.0
 offset_right = 3.0
 offset_bottom = -122.0
@@ -134,6 +138,7 @@ layout_mode = 2
 button_pressed = true
 
 [node name="HSeparator4" type="HSeparator" parent="VBoxContainer/Music"]
+layout_mode = 0
 offset_top = -312.0
 offset_right = 3.0
 offset_bottom = -292.0
@@ -141,6 +146,7 @@ theme_override_constants/separation = 20
 
 [node name="Music_Label" type="Label" parent="VBoxContainer/Music"]
 custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
 offset_right = 57.0
 offset_bottom = 23.0
 theme_override_fonts/font = SubResource("SystemFont_71gpn")
