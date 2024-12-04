@@ -224,10 +224,12 @@ size = Vector3(2.46228, 12.6358, 10.6517)
 
 [node name="TerrainBlock_1" type="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 0, 10)
+layers = 9
 material_override = SubResource("StandardMaterial3D_c5iwb")
 mesh = SubResource("PlaneMesh_qw1vn")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_p3m4p")
