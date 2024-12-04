@@ -25,6 +25,9 @@ var score: int = 0
 var mistakes: int = 0
 var timer: Timer
 
+var current_score: int
+var high_score: int
+
 
 func _ready():
 	# Speichere die Tore im Dictionary für den schnellen Zugriff
@@ -156,26 +159,71 @@ func update_mistake_icons():
 func win_game():
 	timer.stop()
 	
-	var main_game_scene = preload("res://world.tscn").instantiate()
-	main_game_scene.set("game_state", main_game_state)
-	get_tree().root.add_child(main_game_scene)
-	# get_tree().change_scene_to_file(main_game_scene)
+	#var main_game_scene = preload("res://world.tscn").instantiate()
+	# main_game_scene.set("game_state", main_game_state)
+	# get_tree().root.add_child(main_game_scene)
+	get_tree().change_scene_to_file("res://world.tscn")
 	#var main_game_scene = preload("res://world.tscn").instantiate()
 	#get_tree().root.add_child(main_game_scene)
 	
 	# restore saved state 
-	var player = main_game_scene.get_node("Player")
+	#var player = main_game_scene.get_node("Player")
 	
-	if player and player.has_method("restore_state"):
-		player.restore_state(main_game_state)
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	#if player and player.has_method("restore_state"):
+	#	player.restore_state(main_game_state)
+	#get_tree().change_scene_to_file("res://main_menu.tscn")
 	queue_free()
 	
 func lose_game():
 	timer.stop()
+	# save_current_score(0)
 	get_tree().change_scene_to_file("res://game_over.tscn")
 
 
 func set_game_state(state: Dictionary) -> void:
 	main_game_state = state
+	
+func load_high_score() -> int:
+	var file = FileAccess.open("user://high_score.save", FileAccess.READ)
+	if file:
+		high_score = file.get_32()
+		file.close()
+	return high_score
+
+func save_high_score(new_score: int) -> void:
+	var file = FileAccess.open("user://high_score.save", FileAccess.WRITE)
+	file.store_32(new_score)
+	file.close()
+	
+func save_current_score(score: int) -> void:
+	var file = FileAccess.open("user://current_score.save", FileAccess.WRITE)
+	file.store_32(score)
+	file.close()
+	
+	
+func load_current_score() -> int:
+	var file = FileAccess.open("user://current_score.save", FileAccess.READ)
+	if file:
+		current_score = file.get_32()
+		file.close()
+	return current_score
+	
+	
+func show_game_over_screen() -> void:
+	var game_over_scene = preload("res://game_over.tscn").instantiate()
+	
+	current_score = load_current_score()
+	high_score = load_high_score()
+	
+	# Ensure high_score is updated before displaying the GameOver screen
+	if current_score > high_score:
+		high_score = current_score
+		save_high_score(high_score)  # Save the new high score if it's higher
+
+	# Set the scores on the GameOver scene instance
+	game_over_scene.set_score(current_score)
+	game_over_scene.high_score = high_score  # Manually set the high_score if needed
+
+	get_tree().root.add_child(game_over_scene)
+	queue_free()  # Remove the player from the scene
 	

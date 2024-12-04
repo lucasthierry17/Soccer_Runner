@@ -39,13 +39,16 @@ var countdown_label: Label
 var countdown_time = 3  # Countdown starts from 3
 var can_move = false
 
-var current_score = 0
+var current_score: int
 var high_score = 0
 
 var is_paused # for the pause button
 
 var game_state: Dictionary = {}
 var score: int
+
+var old_score: int
+var rows_score: int
 
 func ease_in_out_quad(t: float) -> float:
 	if t < 0.5: 
@@ -56,21 +59,13 @@ func ease_in_out_quad(t: float) -> float:
 func _ready():
 	high_score = load_high_score()
 	
-	# Default score is 0 if no state is passed
-	var initial_score = 0
+	old_score = load_current_score()
 	
-	# doesn't work
-	#if get_tree().has_current_scene() and get_tree().current_scene.get("game_state") != null:
-		#var game_state = get_tree().current_scene.get("game_state")
-		#initial_score = game_state.get("score", 0)  # Get previous score if it exists
+	if old_score == null:
+		old_score = 0
 		
-	# Check if the current scene has game_state
-	if "game_state" in self:
-		var game_state = self.game_state
-		initial_score = game_state.get("score", 0)
-	else:
-		self.game_state = {}  # Initialize an empty game state
- 
+	print(old_score)
+		
 	
 	current_lane = 0
 	update_position()
@@ -80,9 +75,8 @@ func _ready():
 	score_label = Label.new()
 	score_label.position = Vector2(80, 80)  # Position at the top-left corner
 	
-	restore_state(initial_score)
 	
-	# score_label.text = "Score: " + str(current_score)
+	score_label.text = "Score: " + str(old_score)
 	score_label.scale = Vector2(3, 3)
 	add_child(score_label)  # Add the score label to the scene 
 		 
@@ -114,6 +108,18 @@ func save_high_score(new_score: int) -> void:
 	var file = FileAccess.open("user://high_score.save", FileAccess.WRITE)
 	file.store_32(new_score)
 	file.close()
+	
+func save_current_score(score: int) -> void:
+	var file = FileAccess.open("user://current_score.save", FileAccess.WRITE)
+	file.store_32(score)
+	file.close()
+	
+func load_current_score() -> int:
+	var file = FileAccess.open("user://current_score.save", FileAccess.READ)
+	if file:
+		current_score = file.get_32()
+		file.close()
+	return current_score
 	
 	
 func _unhandled_input(event: InputEvent) -> void:
@@ -177,7 +183,7 @@ func _on_countdown_timeout() -> void:
 		var terrain_controller = get_parent().get_node("TerrainController")  # Adjust the path as needed
 		if terrain_controller:
 			terrain_controller.can_move = true
-			background_sound.play()
+			# background_sound.play()
 	else:
 		countdown_label.visible = false  # Hide countdown label once it's "GO!"
 
@@ -219,7 +225,8 @@ func _physics_process(_delta: float) -> void:
 		terrain_distance_moved += _delta * 20  # Replace with your terrain movement speed
 		if terrain_distance_moved >= 1.0:  # Assuming 1 unit per row
 			rows_passed += 1
-			current_score = rows_passed
+			rows_score = rows_passed
+			current_score = old_score + rows_score
 			score_label.text = "Score: " + str(current_score)
 			terrain_distance_moved = 0.0  # Reset for the next row
 
@@ -253,10 +260,9 @@ func _handle_collision(collider) -> void:
 	
 	# animated_sprite.stop()
 	
-	# save current game state
-	var game_score = current_score
 	
 	save_state()
+	save_current_score(current_score)
 	# switch to minigame scene
 	var minigame_scene = preload('res://MiniGame.tscn').instantiate()
 	minigame_scene.set_game_state(self.game_state)

@@ -15,6 +15,7 @@ func _ready() -> void:
 	pass
 
 func on_start_pressed() -> void:
+	save_current_score(0)
 	get_tree().change_scene_to_packed(start_game)
 
 func on_settings_pressed() -> void:
@@ -22,3 +23,8 @@ func on_settings_pressed() -> void:
 
 func on_exit_pressed() -> void:
 	get_tree().quit()
+	
+func save_current_score(score: int) -> void:
+	var file = FileAccess.open("user://current_score.save", FileAccess.WRITE)
+	file.store_32(score)
+	file.close()
