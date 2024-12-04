@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cno840nyxxpw2"]
+[gd_scene load_steps=26 format=3 uid="uid://cno840nyxxpw2"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_rjl68"]
 [ext_resource type="PackedScene" uid="uid://odgtnpypykcy" path="res://terrain_controller.tscn" id="1_wvryj"]
@@ -17,7 +17,7 @@
 [ext_resource type="Script" path="res://label.gd" id="15_ai81n"]
 [ext_resource type="AudioStream" uid="uid://bgxhh2unndp3h" path="res://cartoon-jump-6462.mp3" id="16_cuekt"]
 [ext_resource type="AudioStream" uid="uid://sc81vcok3jlc" path="res://soccer-stadium-10-6709.mp3" id="16_lcmoc"]
-[ext_resource type="AudioStream" uid="uid://cxx0x1xp4m5o" path="res://soccer-ball-kick-37625.mp3" id="17_krnan"]
+[ext_resource type="AudioStream" uid="uid://cvylutsicbcwm" path="res://arcade-countdown-7007.mp3" id="17_t7pr2"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_om122"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -85,6 +85,13 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="GDScript" id="GDScript_4eo23"]
+script/source = "extends Control
+
+func _on_resume_pressed() -> void:
+	pass # Replace with function body.
+"
+
 [node name="World" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -118,13 +125,13 @@ frame_progress = 0.524734
 [node name="JumpSound" type="AudioStreamPlayer" parent="Player"]
 stream = ExtResource("16_cuekt")
 
-[node name="DeathSound" type="AudioStreamPlayer" parent="Player"]
-stream = ExtResource("17_krnan")
-
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="Player"]
 stream = ExtResource("16_lcmoc")
 autoplay = true
 parameters/looping = true
+
+[node name="CountDownSound" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("17_t7pr2")
 
 [node name="TerrainController" parent="." instance=ExtResource("1_wvryj")]
 
@@ -144,3 +151,54 @@ offset_bottom = 1837.0
 theme_override_font_sizes/font_size = 250
 text = "Start"
 script = ExtResource("15_ai81n")
+
+[node name="PauseMenu" type="Control" parent="."]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -900.0
+offset_top = -700.0
+offset_right = -700.0
+offset_bottom = -400.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_4eo23")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu"]
+modulate = Color(0.75095, 0.825259, 1, 1)
+self_modulate = Color(0.301961, 0.196078, 1, 1)
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 0
+offset_right = 71.0
+offset_bottom = 73.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/ColorRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HSeparator" type="HSeparator" parent="PauseMenu/ColorRect/VBoxContainer"]
+layout_mode = 2
+
+[node name="Resume" type="Button" parent="PauseMenu/ColorRect/VBoxContainer"]
+z_index = 10
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "Resume"
+
+[node name="HSeparator" type="HSeparator" parent="PauseMenu/ColorRect/VBoxContainer/Resume"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 4.0
+
+[node name="Quit" type="Button" parent="PauseMenu/ColorRect/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/Resume" to="Player" method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/Quit" to="Player" method="_on_quit_pressed"]
