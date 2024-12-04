@@ -104,20 +104,15 @@ func _input(event):
 func toggle_pause():
 	GameSettings.is_paused = !GameSettings.is_paused
 	if GameSettings.is_paused:
-		# Manually stop game logic, but don't pause the entire scene tree
 		get_tree().paused = false  # Keep the scene running, but we'll manage pausing
 		PauseMenu.visible = true
 		animated_sprite.stop()
-		
-		# Disable player movement and other game logic that should be paused
 		can_move = false
-		#game_over = true  # Stop any further gameplay logic
-
+		
 	else:
 		# Resume gameplay
-		PauseMenu.visible = false
-		# Re-enable player movement and gameplay logic
-		can_move = true
+		PauseMenu.visible = false # disable the menu
+		can_move = true # player can move again
 		game_over = false  # Allow gameplay to continue
 
 
@@ -249,7 +244,6 @@ func start_lane_switch() -> void:
 	if ball:
 		ball.update_lane(current_lane)
 		print("Player switched lane to:", current_lane)
-
 
 
 func update_position():
