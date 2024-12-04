@@ -23,7 +23,6 @@ func _ready() -> void:
 
 func set_score(score: int) -> void:
 	self.current_score = score
-	#score_button.text = "Score: %d" % self.current_score
 	
 func set_high_score(high_score: int) -> void:
 	self.high_score = high_score
@@ -31,8 +30,6 @@ func set_high_score(high_score: int) -> void:
 
 func _on_start_pressed() -> void:
 	print("Restarting game...")
-
-	# Verberge den GameOver-Screen
 	self.hide()
 
 	# Lade die Welt-Szene neu

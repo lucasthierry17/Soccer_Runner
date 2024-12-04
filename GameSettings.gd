@@ -5,11 +5,7 @@ signal settings_changed
 
 # Game settings
 var mode: String = "Easy"
-<<<<<<< HEAD
-var music_enabled: bool = false
-var sound_enabled: bool = false
 var times_died: int = 0
-=======
 var music_enabled: bool = true
 var sound_enabled: bool = true
 
@@ -49,4 +45,3 @@ func update_mode_settings():
 		acceleration_rate = 1.01
 	print("Mode updated to: ", mode, " | Velocity: ", velocity, " | Acceleration Rate: ", acceleration_rate)  # Debug print
 	emit_signal("settings_changed")  # Notify other scripts of the change
->>>>>>> pause

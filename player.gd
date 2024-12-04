@@ -6,28 +6,6 @@ const JUMP_FORCE = 13.0
 const GRAVITY = 50.0
 const OBSTACLE_LAYER = 1 << 1  # Layers are zero-indexed (Layer 2)
 
-<<<<<<< HEAD
-
-@export var lane_width = 1.0
-@export var max_lanes = 1
-
-
-@onready var animated_sprite = get_node("AnimatedSprite3D")
-@onready var jump_sound = $JumpSound as AudioStreamPlayer
-@onready var death_sound = $DeathSound as AudioStreamPlayer
-@onready var background_sound = $BackgroundMusic as AudioStreamPlayer
-
-var game_over = false
-var current_lane = 0
-var target_x_position: float = 0.0
-var switch_duration: float = 0.3
-var switch_time: float = 0.0
-var is_switching: bool = false
-var swipe_start_position: Vector2 = Vector2.ZERO
-var swipe_threshold: float = 100.0
-var jump_swipe_threshold: float = 100.0  # Höherer Wert für deutliche Unterscheidung
-var jump_requested: bool = false
-=======
 # variables
 @export var lane_width = 1.0
 @export var max_lanes = 1
@@ -49,18 +27,13 @@ var swipe_start_position: Vector2 = Vector2.ZERO
 var swipe_threshold: float = 100.0 
 var jump_swipe_threshold: float = 100.0  # higher value for better distiction
 var jump_requested: bool = false # to handle the jump
->>>>>>> pause
 var score_label: Label
 var rows_passed = 0  # Tracks rows passed as a score
 var terrain_distance_moved = 0.0  # Tracks terrain movement along the z-axis
 var countdown_label: Label
 var countdown_time = 3  # Countdown starts from 3
 var can_move = false
-<<<<<<< HEAD
 var current_score: int
-=======
-var current_score = 0
->>>>>>> pause
 var high_score = 0
 var is_paused # for the pause button
 var game_state: Dictionary = {}
@@ -109,17 +82,10 @@ func _apply_settings():
 
 	# Additional initialization for the game
 	score_label = Label.new()
-	score_label.position = Vector2(80, 80)  # Position at the top-left corner
-<<<<<<< HEAD
-	
-	
+	score_label.position = Vector2(80, 80)  # Position at the top-left corner	
 	score_label.text = "Score: " + str(old_score)
 	score_label.scale = Vector2(3, 3)
-	add_child(score_label)  # Add the score label to the scene 
-=======
-	score_label.text = "Score: 0 "
-	score_label.scale = Vector2(3, 3)
-	add_child(score_label)  # Add the score label to the scene      
+	add_child(score_label)  # Add the score label to the scene     
 	
 	pause_button = Button.new()
 	pause_button.text = "||"
@@ -133,7 +99,6 @@ func _apply_settings():
 	canvas_layer.add_child(pause_button)
 	pause_button.connect("pressed", Callable(self, "_on_pause_button_pressed"))
 
->>>>>>> pause
 	countdown_label = get_node("../StopWatch/Label")
 	_update_countdown_position()
 
@@ -144,8 +109,6 @@ func _apply_settings():
 	add_child(countdown_timer)
 	countdown_timer.start()
 	
-<<<<<<< HEAD
-=======
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		toggle_pause()
@@ -173,7 +136,6 @@ func _on_music_toggle_changed(enabled: bool) -> void:
 		background_music.stop()
 		background_music.volume_db = -80 # Mute it entirely
 		
->>>>>>> pause
 func load_high_score() -> int:
 	var file = FileAccess.open("user://high_score.save", FileAccess.READ)
 	if file:
@@ -185,7 +147,6 @@ func save_high_score(new_score: int) -> void:
 	var file = FileAccess.open("user://high_score.save", FileAccess.WRITE)
 	file.store_32(new_score)
 	file.close()
-<<<<<<< HEAD
 	
 func save_current_score(score: int) -> void:
 	var file = FileAccess.open("user://current_score.save", FileAccess.WRITE)
@@ -199,10 +160,7 @@ func load_current_score() -> int:
 		file.close()
 	return current_score
 	
-	
-=======
 
->>>>>>> pause
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.is_pressed():
@@ -258,69 +216,13 @@ func _on_countdown_timeout() -> void:
 		var terrain_controller = get_parent().get_node("TerrainController")
 		if terrain_controller:
 			terrain_controller.can_move = true
-<<<<<<< HEAD
-			# background_sound.play()
-=======
 			background_music.play()
->>>>>>> pause
+
 	else:
 		countdown_label.visible = false
 
 func _physics_process(delta: float) -> void:
 		# If the game is over or countdown hasn't finished, stop updating
-<<<<<<< HEAD
-	if game_over or not can_move or is_paused:
-		return
-		# Smooth lane transition using easing if switching lanes
-	if not is_paused:
-		
-		if is_switching:
-			switch_time += _delta
-			var t = min(switch_time / switch_duration, 1.0)
-			position.x = lerp(position.x, target_x_position, ease_in_out_quad(t))
-			
-			if t >= 1.0:
-				is_switching = false
-
-		# Apply gravity when not on the floor
-		if not is_on_floor():
-			velocity.y -= GRAVITY * _delta  # Apply gravity while in the air
-			animated_sprite.play("jump")  # Play jump animation while in the air
-		else:
-			# Reset Y velocity when on the floor and prepare for jump
-			velocity.y = 0
-
-			if jump_requested:
-				velocity.y = JUMP_FORCE  # Apply jump force
-				jump_requested = false
-				animated_sprite.play("jump")  # Play jump animation
-			else:
-				# Play "move" animation when grounded and not jumping
-				animated_sprite.play("move")
-
-		# Move the player using built-in velocity and detect collisions
-		move_and_slide()
-
-		# Track terrain movement and update score
-		terrain_distance_moved += _delta * 20  # Replace with your terrain movement speed
-		if terrain_distance_moved >= 1.0:  # Assuming 1 unit per row
-			rows_passed += 1
-			rows_score = rows_passed
-			current_score = old_score + rows_score
-			score_label.text = "Score: " + str(current_score)
-			terrain_distance_moved = 0.0  # Reset for the next row
-
-		# Check for collisions with obstacles
-		for i in range(get_slide_collision_count()):
-			var collision = get_slide_collision(i)
-			var collider = collision.get_collider()
-			
-			# Check if the collider is on the obstacle layer
-			if collider.collision_layer & OBSTACLE_LAYER != 0:
-				_handle_collision(collider)
-			
-# Funktion zum Starten des Spurwechsels und Initialisieren der Parameter
-=======
 	if game_over or not can_move or GameSettings.is_paused:
 		return
 
@@ -358,7 +260,6 @@ func _physics_process(delta: float) -> void:
 		if collider.collision_layer & OBSTACLE_LAYER != 0:
 			_handle_collision(collider)
 
->>>>>>> pause
 func start_lane_switch() -> void:
 	target_x_position = current_lane * lane_width
 	switch_time = 0.0
@@ -379,11 +280,10 @@ func update_position():
 func _handle_collision(collider) -> void:
 	game_over = true
 	print("Game Over! Player collided with an obstacle:", collider.name)
-<<<<<<< HEAD
 	can_move = false	
 	if GameSettings.times_died == 0: 
 		GameSettings.times_died += 1
-		background_sound.stop()
+		background_music.stop()
 		save_state()
 		save_current_score(current_score)
 		# switch to minigame scene
@@ -394,12 +294,7 @@ func _handle_collision(collider) -> void:
 	else:
 		show_game_over_screen()
 		
-
-=======
 	animated_sprite.stop()
->>>>>>> pause
-	# Call a function to show the Game Over screen
-	# show_game_over_screen()
 
 func restore_state(score: int) -> void:
 
