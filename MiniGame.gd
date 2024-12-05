@@ -1,6 +1,6 @@
 extends Node2D
 
-const MAX_SCORE = 1
+const MAX_SCORE = 7
 const MAX_MISTAKES = 2
 
 @onready var score_icons = $ScoreIcons
@@ -109,7 +109,7 @@ func change_color():
 func _on_Timer_timeout():
 	game_time -= 1
 	if game_time <= 0:
-		if score >= 1:
+		if score >= 7:
 			print("Congrats! You successfully won the MiniGame.")
 			win_game()
 			
@@ -162,6 +162,7 @@ func win_game():
 	
 func lose_game():
 	timer.stop()
+	self.hide()
 	get_tree().change_scene_to_file("res://game_over.tscn")
 
 func set_game_state(state: Dictionary) -> void:
