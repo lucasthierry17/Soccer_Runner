@@ -163,7 +163,8 @@ func win_game():
 func lose_game():
 	timer.stop()
 	self.hide()
-	get_tree().change_scene_to_file("res://game_over.tscn")
+	show_game_over_screen()
+	# get_tree().change_scene_to_file("res://game_over.tscn")
 
 func set_game_state(state: Dictionary) -> void:
 	self.main_game_state = state
