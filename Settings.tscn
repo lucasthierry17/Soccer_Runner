@@ -1,0 +1,163 @@
+[gd_scene load_steps=9 format=3 uid="uid://bmpayb3hfurju"]
+
+[ext_resource type="Script" path="res://settings.gd" id="1_xphya"]
+[ext_resource type="Texture2D" uid="uid://db6plng4vwpo8" path="res://png/stadium.png" id="2_jpdl2"]
+
+[sub_resource type="SystemFont" id="SystemFont_vsus4"]
+font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_6gn76"]
+font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_cfvxk"]
+font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_4d2sj"]
+font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_71gpn"]
+font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_cr61y"]
+font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
+
+[node name="Settings_Screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xphya")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_right = 152.0
+offset_bottom = 87.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_jpdl2")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+offset_right = 24.0
+offset_bottom = 24.0
+scale = Vector2(0.998796, 1)
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.418
+anchor_top = 0.229
+anchor_right = 0.438
+anchor_bottom = 0.229
+offset_left = -57.0
+offset_top = -128.0
+offset_right = 57.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3.01855, 2.92088)
+alignment = 1
+
+[node name="Settings" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.109804)
+theme_override_constants/line_spacing = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("SystemFont_vsus4")
+theme_override_font_sizes/font_size = 50
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="HSeparator4" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Mode_Easy" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_6gn76")
+theme_override_font_sizes/font_size = 20
+text = "Mode - Easy"
+
+[node name="HSeparator5" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Mode_Hard" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_cfvxk")
+theme_override_font_sizes/font_size = 20
+text = "Mode - Hard
+"
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Sounds" type="CheckButton" parent="VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+
+[node name="Sounds_Label" type="Label" parent="VBoxContainer/Sounds"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = SubResource("SystemFont_4d2sj")
+theme_override_font_sizes/font_size = 20
+text = "Sounds"
+
+[node name="HSeparator4" type="HSeparator" parent="VBoxContainer/Sounds"]
+layout_mode = 0
+offset_top = -142.0
+offset_right = 3.0
+offset_bottom = -122.0
+theme_override_constants/separation = 20
+
+[node name="Music" type="CheckButton" parent="VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+
+[node name="HSeparator4" type="HSeparator" parent="VBoxContainer/Music"]
+layout_mode = 0
+offset_top = -312.0
+offset_right = 3.0
+offset_bottom = -292.0
+theme_override_constants/separation = 20
+
+[node name="Music_Label" type="Label" parent="VBoxContainer/Music"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 0
+offset_right = 57.0
+offset_bottom = 23.0
+theme_override_fonts/font = SubResource("SystemFont_71gpn")
+theme_override_font_sizes/font_size = 20
+text = "Music
+"
+
+[node name="Menu" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = SubResource("SystemFont_cr61y")
+text = "Back to Menu
+"

@@ -1,0 +1,157 @@
+[gd_scene load_steps=11 format=3 uid="uid://drnr02n88tma"]
+
+[ext_resource type="Script" path="res://MiniGame.gd" id="1_kco6m"]
+[ext_resource type="Texture2D" uid="uid://cy3cf5jvvusw5" path="res://Sprite/red_goal.png" id="2_jkus5"]
+[ext_resource type="Texture2D" uid="uid://db6plng4vwpo8" path="res://png/stadium.png" id="2_lcpsj"]
+[ext_resource type="Texture2D" uid="uid://cb3w6ox4hcdp4" path="res://Sprite/blue_goal.png" id="3_0u3uo"]
+[ext_resource type="Texture2D" uid="uid://dyyp0usqvnej0" path="res://Sprite/green_goal.png" id="4_g753r"]
+[ext_resource type="Texture2D" uid="uid://bpuicymnxbfew" path="res://Sprite/check_5610944.png" id="6_aba86"]
+[ext_resource type="Texture2D" uid="uid://btof3m8nyi4uj" path="res://Sprite/delete-button_5974771.png" id="7_c5qpy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ti5ey"]
+size = Vector2(532, 283)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gn5rr"]
+size = Vector2(376.119, 183.273)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ef76g"]
+size = Vector2(329.776, 178.818)
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(-2, 2)
+script = ExtResource("1_kco6m")
+
+[node name="Stadium" type="Sprite2D" parent="."]
+position = Vector2(1387, -552)
+scale = Vector2(2.91551, 3.61247)
+texture = ExtResource("2_lcpsj")
+
+[node name="Countdown" type="Label" parent="."]
+offset_left = 791.0
+offset_top = 464.0
+offset_right = 1665.0
+offset_bottom = 721.0
+theme_override_font_sizes/font_size = 150
+horizontal_alignment = 1
+vertical_alignment = 1
+structured_text_bidi_override_options = [null, null]
+
+[node name="RoundTimer" type="Timer" parent="."]
+
+[node name="TimerLabel" type="Label" parent="."]
+offset_left = 1039.0
+offset_top = 1101.0
+offset_right = 1451.0
+offset_bottom = 1293.0
+theme_override_font_sizes/font_size = 60
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameTimer" type="Timer" parent="TimerLabel"]
+
+[node name="TargetColorRect" type="ColorRect" parent="."]
+offset_left = 728.0
+offset_top = 711.0
+offset_right = 1780.0
+offset_bottom = 1057.0
+
+[node name="RedGoal" type="Area2D" parent="."]
+position = Vector2(97, 9)
+
+[node name="Sprite2D" type="Sprite2D" parent="RedGoal"]
+position = Vector2(356, 314)
+scale = Vector2(1.48889, 1.57143)
+texture = ExtResource("2_jkus5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RedGoal"]
+position = Vector2(358, 318)
+shape = SubResource("RectangleShape2D_ti5ey")
+
+[node name="BlueGoal" type="Area2D" parent="."]
+position = Vector2(525, 337)
+scale = Vector2(1.48889, 1.57143)
+
+[node name="Sprite2D" type="Sprite2D" parent="BlueGoal"]
+position = Vector2(474.515, -5.09103)
+scale = Vector2(1.08395, 1.04196)
+texture = ExtResource("3_0u3uo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BlueGoal"]
+position = Vector2(476.865, -4.45455)
+shape = SubResource("RectangleShape2D_gn5rr")
+
+[node name="GreenGoal" type="Area2D" parent="."]
+position = Vector2(652, 374)
+scale = Vector2(1.48889, 1.57143)
+
+[node name="Sprite2D" type="Sprite2D" parent="GreenGoal"]
+position = Vector2(883.88, -28)
+scale = Vector2(0.96175, 1.03496)
+texture = ExtResource("4_g753r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GreenGoal"]
+position = Vector2(883.544, -23.8636)
+shape = SubResource("RectangleShape2D_ef76g")
+
+[node name="ScoreIcons" type="HBoxContainer" parent="."]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = -182.0
+offset_top = 559.0
+offset_right = 1127.0
+offset_bottom = 672.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="ScoreIcons"]
+layout_mode = 2
+texture = ExtResource("6_aba86")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="ScoreIcons"]
+layout_mode = 2
+texture = ExtResource("6_aba86")
+expand_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="ScoreIcons"]
+layout_mode = 2
+texture = ExtResource("6_aba86")
+expand_mode = 2
+
+[node name="TextureRect4" type="TextureRect" parent="ScoreIcons"]
+layout_mode = 2
+texture = ExtResource("6_aba86")
+expand_mode = 2
+
+[node name="TextureRect5" type="TextureRect" parent="ScoreIcons"]
+layout_mode = 2
+texture = ExtResource("6_aba86")
+expand_mode = 2
+
+[node name="TextureRect6" type="TextureRect" parent="ScoreIcons"]
+layout_mode = 2
+texture = ExtResource("6_aba86")
+expand_mode = 2
+
+[node name="TextureRect7" type="TextureRect" parent="ScoreIcons"]
+layout_mode = 2
+texture = ExtResource("6_aba86")
+expand_mode = 2
+
+[node name="MistakeIcons" type="HBoxContainer" parent="."]
+offset_left = 1940.0
+offset_top = 559.0
+offset_right = 2221.0
+offset_bottom = 672.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="MistakeIcons"]
+layout_mode = 2
+texture = ExtResource("7_c5qpy")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="MistakeIcons"]
+layout_mode = 2
+texture = ExtResource("7_c5qpy")
+expand_mode = 2

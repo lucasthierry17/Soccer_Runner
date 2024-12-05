@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctqau2yk3xy2y"]
+
+[ext_resource type="Script" path="res://power_up.gd" id="1_hbb7q"]
+[ext_resource type="PackedScene" uid="uid://bv7xcid3eg7pc" path="res://power_ups/banana.tscn" id="2_q3j4n"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8f2vi"]
+
+[node name="PowerUp" type="Area3D"]
+script = ExtResource("1_hbb7q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_8f2vi")
+
+[node name="Banana" parent="." instance=ExtResource("2_q3j4n")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.18239, -0.123366, 0)

@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://trq5po64s22v"]
+
+[ext_resource type="Script" path="res://control.gd" id="1_koek6"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_2kbek"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_koek6")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(3.08037e-06, 0.777616, 0.963355, 1)
+self_modulate = Color(0, 0.517647, 0.282353, 1)
+position = Vector2(1061, 2299.69)
+scale = Vector2(4023.75, 4874.62)
+mesh = SubResource("QuadMesh_2kbek")
+
+[node name="PlayButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 356.0
+offset_top = 1186.0
+offset_right = 814.0
+offset_bottom = 1390.0
+theme_override_font_sizes/font_size = 50
+action_mode = 0
+text = "Spielen"
