@@ -10,6 +10,9 @@ var current_score: int = 0
 var high_score: int = 0
 
 func _ready() -> void:
+	GameSettings.connect("settings_changed", Callable(self, "_apply_settings"))
+	GameSettings.times_died = 0
+	
 	start_button.button_down.connect(_on_start_pressed)
 	exit_button.button_down.connect(_on_exit_pressed)
 
