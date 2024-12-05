@@ -1,6 +1,6 @@
 extends Node2D
 
-const MAX_SCORE = 1
+const MAX_SCORE = 7
 const MAX_MISTAKES = 2
 
 @onready var score_icons = $ScoreIcons
@@ -22,6 +22,8 @@ var mistakes: int = 0
 var timer: Timer
 var current_score: int
 var high_score: int
+
+var previous_color: String = ""
 
 func _ready():
 	# Speichere die Tore im Dictionary für den schnellen Zugriff
@@ -86,8 +88,14 @@ func start_game():
 
 # Wechselt die Farbe
 func change_color():
+	
+	var new_colors = colors.filter(func(color):
+		return color != previous_color
+		)
 	# Wähle zufällig eine der Farben und aktualisiere das Label
-	target_color = colors[randi() % colors.size()]
+	target_color = new_colors[randi() % new_colors.size()]
+	
+	previous_color = target_color
 	
 	# Setze das Label auf die Ziel-Farbe
 	match target_color:
@@ -102,7 +110,7 @@ func change_color():
 func _on_Timer_timeout():
 	game_time -= 1
 	if game_time <= 0:
-		if score >= 1:
+		if score >= 7:
 			print("Congrats! You successfully won the MiniGame.")
 			win_game()
 			
@@ -155,7 +163,8 @@ func win_game():
 	
 func lose_game():
 	timer.stop()
-	get_tree().change_scene_to_file("res://game_over.tscn")
+	self.hide()
+	show_game_over_screen()
 
 func set_game_state(state: Dictionary) -> void:
 	self.main_game_state = state
