@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cno840nyxxpw2"]
+[gd_scene load_steps=26 format=3 uid="uid://cno840nyxxpw2"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_rjl68"]
 [ext_resource type="PackedScene" uid="uid://odgtnpypykcy" path="res://terrain_controller.tscn" id="1_wvryj"]
@@ -14,10 +14,10 @@
 [ext_resource type="Texture2D" uid="uid://ds8q8xnw8gj7a" path="res://Sprite/Running/Run/Run_Back (5).png" id="6_wrhlx"]
 [ext_resource type="Texture2D" uid="uid://c4nqps5hhul68" path="res://Sprite/Running/Run/Run_Back (6).png" id="7_say88"]
 [ext_resource type="Texture2D" uid="uid://cs1uyrduemin2" path="res://Sprite/Running/Jump/Jump_Back (6).png" id="7_siu8s"]
+[ext_resource type="AudioStream" uid="uid://t7mrada7prir" path="res://countdown-3-2-1-jump-100761.mp3" id="14_lw5oe"]
 [ext_resource type="Script" path="res://label.gd" id="15_ai81n"]
 [ext_resource type="AudioStream" uid="uid://bgxhh2unndp3h" path="res://cartoon-jump-6462.mp3" id="16_cuekt"]
 [ext_resource type="AudioStream" uid="uid://sc81vcok3jlc" path="res://soccer-stadium-10-6709.mp3" id="16_lcmoc"]
-[ext_resource type="AudioStream" uid="uid://cxx0x1xp4m5o" path="res://soccer-ball-kick-37625.mp3" id="17_krnan"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_om122"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -85,6 +85,13 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="GDScript" id="GDScript_4eo23"]
+script/source = "extends Control
+
+func _on_resume_pressed() -> void:
+	pass # Replace with function body.
+"
+
 [node name="World" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -115,11 +122,11 @@ sprite_frames = SubResource("SpriteFrames_xjh37")
 animation = &"move"
 frame_progress = 0.524734
 
+[node name="CountDownSound" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("14_lw5oe")
+
 [node name="JumpSound" type="AudioStreamPlayer" parent="Player"]
 stream = ExtResource("16_cuekt")
-
-[node name="DeathSound" type="AudioStreamPlayer" parent="Player"]
-stream = ExtResource("17_krnan")
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="Player"]
 stream = ExtResource("16_lcmoc")
@@ -144,3 +151,54 @@ offset_bottom = 1837.0
 theme_override_font_sizes/font_size = 250
 text = "Start"
 script = ExtResource("15_ai81n")
+
+[node name="PauseMenu" type="Control" parent="."]
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -900.0
+offset_top = -700.0
+offset_right = -700.0
+offset_bottom = -400.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_4eo23")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu"]
+modulate = Color(0.82606, 0.82606, 0.82606, 1)
+custom_minimum_size = Vector2(200, 300)
+layout_mode = 0
+offset_right = 71.0
+offset_bottom = 73.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu/ColorRect"]
+layout_mode = 0
+offset_top = 63.0
+offset_right = 200.0
+offset_bottom = 363.0
+theme_override_constants/separation = 20
+
+[node name="Resume" type="Button" parent="PauseMenu/ColorRect/VBoxContainer"]
+z_index = 10
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+text = "Resume"
+
+[node name="HSeparator" type="HSeparator" parent="PauseMenu/ColorRect/VBoxContainer/Resume"]
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 4.0
+
+[node name="Quit" type="Button" parent="PauseMenu/ColorRect/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.258824, 0, 1)
+text = "Quit"
+
+[connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/Resume" to="Player" method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/ColorRect/VBoxContainer/Quit" to="Player" method="_on_quit_pressed"]
