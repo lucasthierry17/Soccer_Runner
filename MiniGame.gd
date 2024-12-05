@@ -23,6 +23,8 @@ var timer: Timer
 var current_score: int
 var high_score: int
 
+var previous_color: String = ""
+
 func _ready():
 	# Speichere die Tore im Dictionary für den schnellen Zugriff
 	gates = {
@@ -86,8 +88,13 @@ func start_game():
 
 # Wechselt die Farbe
 func change_color():
+	var new_colors = colors.filter(func(color):
+		return color != previous_color
+	)
+	
 	# Wähle zufällig eine der Farben und aktualisiere das Label
-	target_color = colors[randi() % colors.size()]
+	target_color = new_colors[randi() % new_colors.size()]
+	previous_color = target_color
 	
 	# Setze das Label auf die Ziel-Farbe
 	match target_color:
