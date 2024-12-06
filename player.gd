@@ -339,9 +339,9 @@ func _on_resume_pressed() -> void:
 		PauseMenu.visible = false  # Hide the pause menu
 
 func _on_quit_pressed():
-	get_tree().paused = false  # Ensure the game is unpaused before switching scenes
+	GameSettings.is_paused = false  # Ensure the game is unpaused before switching scenes
 	save_high_score(current_score)  # Save the current score if needed
-	get_tree().change_scene_to_file("res://game_over.tscn")  # Load the Game Over scene
+	show_game_over_screen()
 
 
 # Stamina properties

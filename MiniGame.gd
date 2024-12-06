@@ -13,7 +13,6 @@ const MAX_MISTAKES = 2
 @onready var countdown_label = $Countdown # Countdown-Label
 
 var game_time: float = 10.0
-var main_game_state: Dictionary # store the passed Game State
 var gates = {}
 var colors = ["red", "green", "blue"]
 var target_color: String = ""
@@ -167,7 +166,7 @@ func lose_game():
 	show_game_over_screen()
 
 func set_game_state(state: Dictionary) -> void:
-	self.main_game_state = state
+	# self.main_game_state = state
 	self.current_score = state.get("score", 0)
 	
 	
