@@ -110,8 +110,7 @@ func _apply_settings():
 	countdown_timer.start()
 	
 func _input(event):
-	if event.is_action_pressed("ui_cancel"):
-		toggle_pause()
+	connect("pressed", Callable(self, "_on_pause_button_pressed"))
 		
 func toggle_pause():
 	GameSettings.is_paused = !GameSettings.is_paused
@@ -340,6 +339,7 @@ func _on_resume_pressed() -> void:
 
 func _on_quit_pressed():
 	GameSettings.is_paused = false  # Ensure the game is unpaused before switching scenes
+	get_tree().paused = false
 	save_high_score(current_score)  # Save the current score if needed
 	show_game_over_screen()
 

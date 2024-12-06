@@ -25,6 +25,9 @@ var high_score: int
 var previous_color: String = ""
 
 func _ready():
+	
+	target_color_rect.visible = false
+	
 	# Speichere die Tore im Dictionary für den schnellen Zugriff
 	gates = {
 		"red": red_gate,
@@ -73,6 +76,9 @@ func start_countdown() -> void:
 
 
 func start_game():
+	
+	target_color_rect.visible = true
+	
 	# Reset game state
 	score = 0
 	mistakes = 0
