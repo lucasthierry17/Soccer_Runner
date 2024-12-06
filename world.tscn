@@ -168,6 +168,7 @@ text = "Start"
 script = ExtResource("15_ai81n")
 
 [node name="PauseMenu" type="Control" parent="."]
+process_mode = 3
 custom_minimum_size = Vector2(200, 300)
 layout_mode = 3
 anchors_preset = 8
