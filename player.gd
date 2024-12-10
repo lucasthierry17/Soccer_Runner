@@ -110,8 +110,7 @@ func _apply_settings():
 	countdown_timer.start()
 	
 func _input(event):
-	if event.is_action_pressed("ui_cancel"):
-		toggle_pause()
+	connect("pressed", Callable(self, "_on_pause_button_pressed"))
 		
 func toggle_pause():
 	GameSettings.is_paused = !GameSettings.is_paused
@@ -265,7 +264,12 @@ func _physics_process(delta: float) -> void:
 		if collider.collision_layer & OBSTACLE_LAYER != 0:
 			_handle_collision(collider)
 	
-	deplete_stamina(delta)
+	if can_move:
+		stamina_bar.visible = true
+		deplete_stamina(delta)
+		
+	else:
+		stamina_bar.visible = false
 
 func start_lane_switch() -> void:
 	target_x_position = current_lane * lane_width
@@ -343,9 +347,9 @@ func _on_resume_pressed() -> void:
 		PauseMenu.visible = false  # Hide the pause menu
 
 func _on_quit_pressed():
-	get_tree().paused = false  # Ensure the game is unpaused before switching scenes
+	GameSettings.is_paused = false  # Ensure the game is unpaused before switching scenes
 	save_high_score(current_score)  # Save the current score if needed
-	get_tree().change_scene_to_file("res://game_over.tscn")  # Load the Game Over scene
+	show_game_over_screen()
 
 
 # Stamina properties

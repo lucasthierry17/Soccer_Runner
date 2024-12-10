@@ -9,28 +9,28 @@
 [ext_resource type="Texture2D" uid="uid://btof3m8nyi4uj" path="res://Sprite/delete-button_5974771.png" id="7_c5qpy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ti5ey"]
-size = Vector2(532, 283)
+size = Vector2(304.25, 167.625)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gn5rr"]
-size = Vector2(376.119, 183.273)
+size = Vector2(197.798, 101.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ef76g"]
-size = Vector2(329.776, 178.818)
+size = Vector2(196.623, 99.1135)
 
 [node name="Node2D" type="Node2D"]
 position = Vector2(-2, 2)
 script = ExtResource("1_kco6m")
 
 [node name="Stadium" type="Sprite2D" parent="."]
-position = Vector2(1387, -552)
+position = Vector2(532, -606)
 scale = Vector2(2.91551, 3.61247)
 texture = ExtResource("2_lcpsj")
 
 [node name="Countdown" type="Label" parent="."]
-offset_left = 791.0
-offset_top = 464.0
-offset_right = 1665.0
-offset_bottom = 721.0
+offset_left = 268.0
+offset_top = 676.0
+offset_right = 502.0
+offset_bottom = 881.0
 theme_override_font_sizes/font_size = 150
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -50,21 +50,21 @@ vertical_alignment = 1
 [node name="GameTimer" type="Timer" parent="TimerLabel"]
 
 [node name="TargetColorRect" type="ColorRect" parent="."]
-offset_left = 728.0
-offset_top = 711.0
-offset_right = 1780.0
-offset_bottom = 1057.0
+offset_left = 224.0
+offset_top = 939.0
+offset_right = 541.0
+offset_bottom = 1107.0
 
 [node name="RedGoal" type="Area2D" parent="."]
 position = Vector2(97, 9)
 
 [node name="Sprite2D" type="Sprite2D" parent="RedGoal"]
-position = Vector2(356, 314)
-scale = Vector2(1.48889, 1.57143)
+position = Vector2(269, 107)
+scale = Vector2(0.884389, 0.942857)
 texture = ExtResource("2_jkus5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RedGoal"]
-position = Vector2(358, 318)
+position = Vector2(268.875, 109.188)
 shape = SubResource("RectangleShape2D_ti5ey")
 
 [node name="BlueGoal" type="Area2D" parent="."]
@@ -72,12 +72,12 @@ position = Vector2(525, 337)
 scale = Vector2(1.48889, 1.57143)
 
 [node name="Sprite2D" type="Sprite2D" parent="BlueGoal"]
-position = Vector2(474.515, -5.09103)
-scale = Vector2(1.08395, 1.04196)
+position = Vector2(-104.104, 5.72726)
+scale = Vector2(0.584117, 0.594405)
 texture = ExtResource("3_0u3uo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlueGoal"]
-position = Vector2(476.865, -4.45455)
+position = Vector2(-104.272, 8.43178)
 shape = SubResource("RectangleShape2D_gn5rr")
 
 [node name="GreenGoal" type="Area2D" parent="."]
@@ -85,22 +85,22 @@ position = Vector2(652, 374)
 scale = Vector2(1.48889, 1.57143)
 
 [node name="Sprite2D" type="Sprite2D" parent="GreenGoal"]
-position = Vector2(883.88, -28)
-scale = Vector2(0.96175, 1.03496)
+position = Vector2(-184.701, 124.091)
+scale = Vector2(0.574043, 0.579108)
 texture = ExtResource("4_g753r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GreenGoal"]
-position = Vector2(883.544, -23.8636)
+position = Vector2(-184.282, 126.079)
 shape = SubResource("RectangleShape2D_ef76g")
 
 [node name="ScoreIcons" type="HBoxContainer" parent="."]
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_left = -182.0
-offset_top = 559.0
-offset_right = 1127.0
-offset_bottom = 672.0
-grow_horizontal = 2
+offset_left = 10.0
+offset_top = 875.0
+offset_right = 356.0
+offset_bottom = 921.0
+grow_vertical = 2
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="ScoreIcons"]
@@ -139,12 +139,10 @@ texture = ExtResource("6_aba86")
 expand_mode = 2
 
 [node name="MistakeIcons" type="HBoxContainer" parent="."]
-offset_left = 1940.0
-offset_top = 559.0
-offset_right = 2221.0
-offset_bottom = 672.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = 565.0
+offset_top = 881.0
+offset_right = 690.0
+offset_bottom = 926.0
 
 [node name="TextureRect" type="TextureRect" parent="MistakeIcons"]
 layout_mode = 2
