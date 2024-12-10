@@ -225,7 +225,11 @@ func _on_countdown_timeout() -> void:
 func _physics_process(delta: float) -> void:
 		# If the game is over or countdown hasn't finished, stop updating
 	if game_over or not can_move or GameSettings.is_paused:
+		stamina_bar.visible = false
 		return
+	
+	else: 
+		stamina_bar.visible = true
 
 	if is_switching:
 		switch_time += delta
