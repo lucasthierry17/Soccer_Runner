@@ -91,9 +91,6 @@ bg_color = Color(0.498762, 0.809783, 0.0769507, 1)
 
 [sub_resource type="GDScript" id="GDScript_4eo23"]
 script/source = "extends Control
-
-func _on_resume_pressed() -> void:
-	pass # Replace with function body.
 "
 
 [node name="World" type="Node3D"]

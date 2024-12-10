@@ -224,7 +224,10 @@ func _on_countdown_timeout() -> void:
 func _physics_process(delta: float) -> void:
 		# If the game is over or countdown hasn't finished, stop updating
 	if game_over or not can_move or GameSettings.is_paused:
+		stamina_bar.visible = false
 		return
+	else: 
+		stamina_bar.visible = true
 
 	if is_switching:
 		switch_time += delta
@@ -344,10 +347,20 @@ func _on_resume_pressed() -> void:
 		PauseMenu.visible = false  # Hide the pause menu
 
 func _on_quit_pressed():
+	PauseMenu.visible = false
 	get_tree().paused = false  # Ensure the game is unpaused before switching scenes
 	GameSettings.is_paused = false
-	save_high_score(current_score)  # Save the current score if needed
-	get_tree().change_scene_to_file("res://game_over.tscn")  # Load the Game Over scene
+	  # Check for new high score
+	if current_score > high_score:
+		high_score = current_score
+		save_high_score(high_score)
+
+	# Load the Game Over screen with scores
+	var game_over_scene = preload("res://game_over.tscn").instantiate()
+	game_over_scene.set_score(current_score)
+	game_over_scene.high_score = high_score
+	get_tree().root.add_child(game_over_scene)
+	queue_free()  # Remove the player from the scene
 
 
 # Stamina properties
