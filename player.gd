@@ -347,6 +347,8 @@ func _on_resume_pressed() -> void:
 		PauseMenu.visible = false  # Hide the pause menu
 
 func _on_quit_pressed():
+	PauseMenu.visible = false
+	get_tree().paused = false
 	GameSettings.is_paused = false  # Ensure the game is unpaused before switching scenes
 	save_high_score(current_score)  # Save the current score if needed
 	show_game_over_screen()
@@ -374,7 +376,7 @@ func deplete_stamina(delta):
 # Function to increase stamina when power-up is collected
 func add_stamina(stamina_value):
 	print('stamina before: ', current_stamina)
-	#current_stamina =
+
 	var stamina_recovered = stamina_value*0.01 * max_stamina
 	current_stamina =  min(current_stamina + stamina_recovered, max_stamina)
 	stamina_bar.value = current_stamina
