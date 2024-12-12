@@ -2,34 +2,41 @@
 
 [ext_resource type="Script" path="res://MiniGame.gd" id="1_kco6m"]
 [ext_resource type="Texture2D" uid="uid://db6plng4vwpo8" path="res://png/stadium.png" id="2_lcpsj"]
-[ext_resource type="Texture2D" uid="uid://firn8bc1qrqi" path="res://png/red_ball.png" id="3_mkkye"]
-[ext_resource type="Texture2D" uid="uid://dqb8n7e4pbvcl" path="res://png/blue_ball.png" id="4_25bok"]
-[ext_resource type="Texture2D" uid="uid://dyyp0usqvnej0" path="res://Sprite/green_goal.png" id="4_g753r"]
+[ext_resource type="Texture2D" uid="uid://g5c2mjs5ofhg" path="res://png/Goal_red.png" id="3_me6lq"]
+[ext_resource type="Texture2D" uid="uid://cxceqc5aphlig" path="res://png/Goal_blue.png" id="4_sg677"]
+[ext_resource type="Texture2D" uid="uid://bqyc50nel6snd" path="res://png/Goal_Green.png" id="5_1x43d"]
 [ext_resource type="Texture2D" uid="uid://bpuicymnxbfew" path="res://Sprite/check_5610944.png" id="6_aba86"]
 [ext_resource type="Texture2D" uid="uid://btof3m8nyi4uj" path="res://Sprite/delete-button_5974771.png" id="7_c5qpy"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_33p51"]
-radius = 103.73
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iel2y"]
+size = Vector2(444, 217)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_71n53"]
-radius = 104.174
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g3jhm"]
+size = Vector2(444, 218)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ef76g"]
-size = Vector2(196.623, 99.1135)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_84dnd"]
+size = Vector2(444, 219)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_kco6m")
 
 [node name="Stadium" type="Sprite2D" parent="."]
-position = Vector2(493, -606)
-scale = Vector2(2.91551, 3.61247)
+position = Vector2(455, -64)
+scale = Vector2(1.82497, 2.41171)
 texture = ExtResource("2_lcpsj")
 
 [node name="Countdown" type="Label" parent="."]
-offset_left = 359.0
-offset_top = 517.0
-offset_right = 360.0
-offset_bottom = 722.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -102.5
+offset_right = 0.5
+offset_bottom = 102.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 150
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -38,83 +45,74 @@ structured_text_bidi_override_options = [null, null]
 [node name="RoundTimer" type="Timer" parent="."]
 
 [node name="TimerLabel" type="Label" parent="."]
-offset_left = 359.0
-offset_top = 578.0
-offset_right = 360.0
-offset_bottom = 661.0
-theme_override_font_sizes/font_size = 60
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -41.5
+offset_right = 0.5
+offset_bottom = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GameTimer" type="Timer" parent="TimerLabel"]
 
 [node name="TargetColorRect" type="ColorRect" parent="."]
-offset_left = 360.0
-offset_top = 620.0
-offset_right = 360.0
-offset_bottom = 620.0
+offset_left = 185.0
+offset_top = 830.0
+offset_right = 535.0
+offset_bottom = 980.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(100, 50)
-offset_left = 310.0
-offset_top = 595.0
-offset_right = 410.0
-offset_bottom = 645.0
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(720, 1240)
+offset_right = 720.0
+offset_bottom = 1240.0
+theme_override_constants/separation = 200
 alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="."]
-offset_left = 360.0
-offset_top = 620.0
-offset_right = 360.0
-offset_bottom = 620.0
-theme_override_constants/h_separation = 0
+[node name="RedGoal" type="Area2D" parent="VBoxContainer"]
 
-[node name="RedGoal" type="Area2D" parent="GridContainer"]
-position = Vector2(-299, -542)
+[node name="RedGoal" type="Sprite2D" parent="VBoxContainer/RedGoal"]
+position = Vector2(360, 150)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_me6lq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GridContainer/RedGoal"]
-position = Vector2(276, 116)
-shape = SubResource("CircleShape2D_33p51")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VBoxContainer/RedGoal"]
+position = Vector2(360, 150.5)
+shape = SubResource("RectangleShape2D_iel2y")
 
-[node name="BlueGoal" type="Area2D" parent="GridContainer"]
-position = Vector2(-66, 143)
-scale = Vector2(1.48889, 1.57143)
+[node name="BlueGoal" type="Area2D" parent="VBoxContainer"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GridContainer/BlueGoal"]
-position = Vector2(47.6865, -152.091)
-shape = SubResource("CircleShape2D_71n53")
+[node name="BlueGoal" type="Sprite2D" parent="VBoxContainer/BlueGoal"]
+position = Vector2(360, 400)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("4_sg677")
 
-[node name="GreenGoal" type="Area2D" parent="GridContainer"]
-position = Vector2(602, 349)
-scale = Vector2(1.48889, 1.57143)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VBoxContainer/BlueGoal"]
+position = Vector2(360, 400)
+shape = SubResource("RectangleShape2D_g3jhm")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GridContainer/GreenGoal"]
-position = Vector2(-184.282, 126.079)
-shape = SubResource("RectangleShape2D_ef76g")
+[node name="GreenGoal" type="Area2D" parent="VBoxContainer"]
 
-[node name="Sprite2D" type="Sprite2D" parent="GridContainer"]
-position = Vector2(2, -427)
-scale = Vector2(0.086, 0.081)
-texture = ExtResource("3_mkkye")
+[node name="GreenGoal" type="Sprite2D" parent="VBoxContainer/GreenGoal"]
+position = Vector2(360, 650)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_1x43d")
 
-[node name="Sprite2D2" type="Sprite2D" parent="GridContainer"]
-position = Vector2(2, -96)
-scale = Vector2(0.128045, 0.136714)
-texture = ExtResource("4_25bok")
-
-[node name="Sprite2D3" type="Sprite2D" parent="GridContainer"]
-position = Vector2(2, 544)
-scale = Vector2(0.854687, 0.910028)
-texture = ExtResource("4_g753r")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VBoxContainer/GreenGoal"]
+position = Vector2(360, 650.5)
+shape = SubResource("RectangleShape2D_84dnd")
 
 [node name="ScoreIcons" type="HBoxContainer" parent="."]
-offset_left = 348.0
-offset_top = 620.0
-offset_right = 372.0
-offset_bottom = 620.0
-grow_vertical = 2
+offset_left = 185.0
+offset_top = 1100.0
+offset_right = 535.0
+offset_bottom = 1140.0
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="ScoreIcons"]
@@ -153,10 +151,10 @@ texture = ExtResource("6_aba86")
 expand_mode = 2
 
 [node name="MistakeIcons" type="HBoxContainer" parent="."]
-offset_left = 358.0
-offset_top = 620.0
-offset_right = 362.0
-offset_bottom = 620.0
+offset_left = 318.0
+offset_top = 1150.0
+offset_right = 402.0
+offset_bottom = 1190.0
 
 [node name="TextureRect" type="TextureRect" parent="MistakeIcons"]
 layout_mode = 2

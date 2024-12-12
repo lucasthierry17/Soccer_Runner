@@ -82,7 +82,7 @@ func _apply_settings():
 
 	# Additional initialization for the game
 	score_label = Label.new()
-	score_label.position = Vector2(80, 80)  # Position at the top-left corner	
+	score_label.position = Vector2(60, 50)  # Position at the top-left corner	
 	score_label.text = "Score: " + str(old_score)
 	score_label.scale = Vector2(3, 3)
 	add_child(score_label)  # Add the score label to the scene     
@@ -90,7 +90,7 @@ func _apply_settings():
 	pause_button = Button.new()
 	pause_button.text = "||"
 	pause_button.size = Vector2(100, 50)
-	pause_button.position = Vector2(-200, 200)
+	pause_button.position = Vector2(-101, 5)
 	pause_button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	PauseMenu.position = get_viewport().get_visible_rect().size / 2 - PauseMenu.size / 2
 	

@@ -5,9 +5,9 @@ const MAX_MISTAKES = 2
 
 @onready var score_icons = $ScoreIcons
 @onready var mistake_icons = $MistakeIcons
-@onready var red_gate = $RedGoal
-@onready var green_gate = $GreenGoal
-@onready var blue_gate = $BlueGoal
+@onready var red_gate = $VBoxContainer/RedGoal
+@onready var green_gate = $VBoxContainer/GreenGoal
+@onready var blue_gate = $VBoxContainer/BlueGoal
 @onready var target_color_rect = $TargetColorRect
 @onready var timer_label = $TimerLabel
 @onready var countdown_label = $Countdown # Countdown-Label
@@ -24,13 +24,12 @@ var current_score: int
 var high_score: int
 
 var previous_color: String = ""
+var position_x = 0
 
-var viewport_size = get_viewport().get_visible_rect().size
 
 func _ready():
-	
-	var viewport_size = get_viewport().get_visible_rect().size
-	red_gate.position = (viewport_size - red_gate.size) / 2
+	position_x = 360 - (countdown_label.size.x/2)
+	countdown_label.position = Vector2(position_x, 750)
 	
 	target_color_rect.visible = false
 	
@@ -68,6 +67,10 @@ func _ready():
 
 func start_countdown() -> void:
 	countdown_label.modulate = Color(0, 0, 0)
+	position_x = 360 - (countdown_label.size.x/2)
+	
+	countdown_label.position = Vector2(position_x, 750)
+	 
 	var countdown_time = 3
 	countdown_label.show()
 
@@ -92,8 +95,11 @@ func start_game():
 	update_mistake_icons()
 	
 	# Timer starten
-	timer.start()
+	timer.start() 
+	position_x = 360 - (timer_label.size.x/2)
+	timer_label.position = Vector2(position_x, 1000)
 	timer_label.text = "Time: " + str(game_time)
+	
 	change_color() # startet das Spiel
 
 
@@ -225,7 +231,3 @@ func show_game_over_screen() -> void:
 
 	get_tree().root.add_child(game_over_scene)
 	queue_free()  # Remove the player from the scene
-	
-func _center_element(element):
-	var viewport_size = get_viewport().get_visible_rect().size
-	element.position = (viewport_size - element.size) / 2
