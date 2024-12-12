@@ -350,7 +350,10 @@ func _on_quit_pressed():
 	PauseMenu.visible = false
 	get_tree().paused = false
 	GameSettings.is_paused = false  # Ensure the game is unpaused before switching scenes
-	save_high_score(current_score)  # Save the current score if needed
+	
+	if current_score > high_score:
+		high_score = current_score
+		save_high_score(current_score)  # Save the current score if needed
 	show_game_over_screen()
 
 

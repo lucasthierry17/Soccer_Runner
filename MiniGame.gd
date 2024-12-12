@@ -12,6 +12,7 @@ const MAX_MISTAKES = 2
 @onready var timer_label = $TimerLabel
 @onready var countdown_label = $Countdown # Countdown-Label
 
+
 var game_time: float = 10.0
 var gates = {}
 var colors = ["red", "green", "blue"]
@@ -24,7 +25,12 @@ var high_score: int
 
 var previous_color: String = ""
 
+var viewport_size = get_viewport().get_visible_rect().size
+
 func _ready():
+	
+	var viewport_size = get_viewport().get_visible_rect().size
+	red_gate.position = (viewport_size - red_gate.size) / 2
 	
 	target_color_rect.visible = false
 	
@@ -220,3 +226,6 @@ func show_game_over_screen() -> void:
 	get_tree().root.add_child(game_over_scene)
 	queue_free()  # Remove the player from the scene
 	
+func _center_element(element):
+	var viewport_size = get_viewport().get_visible_rect().size
+	element.position = (viewport_size - element.size) / 2
