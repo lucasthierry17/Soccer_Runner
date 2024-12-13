@@ -109,10 +109,10 @@ position = Vector2(360, 650.5)
 shape = SubResource("RectangleShape2D_84dnd")
 
 [node name="ScoreIcons" type="HBoxContainer" parent="."]
-offset_left = 185.0
+offset_left = 138.0
 offset_top = 1100.0
-offset_right = 535.0
-offset_bottom = 1140.0
+offset_right = 582.0
+offset_bottom = 1160.0
 alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="ScoreIcons"]
@@ -151,10 +151,10 @@ texture = ExtResource("6_aba86")
 expand_mode = 2
 
 [node name="MistakeIcons" type="HBoxContainer" parent="."]
-offset_left = 318.0
-offset_top = 1150.0
-offset_right = 402.0
-offset_bottom = 1190.0
+offset_left = 298.0
+offset_top = 1165.0
+offset_right = 422.0
+offset_bottom = 1225.0
 
 [node name="TextureRect" type="TextureRect" parent="MistakeIcons"]
 layout_mode = 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bmpayb3hfurju"]
+[gd_scene load_steps=11 format=3 uid="uid://bmpayb3hfurju"]
 
 [ext_resource type="Script" path="res://settings.gd" id="1_xphya"]
 [ext_resource type="Texture2D" uid="uid://db6plng4vwpo8" path="res://png/stadium.png" id="2_jpdl2"]
@@ -9,15 +9,27 @@ subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_6gn76"]
 font_names = PackedStringArray("Impact")
-subpixel_positioning = 0
+subpixel_positioning = 3
+multichannel_signed_distance_field = true
 
 [sub_resource type="SystemFont" id="SystemFont_cfvxk"]
 font_names = PackedStringArray("Impact")
-subpixel_positioning = 0
+subpixel_positioning = 3
+multichannel_signed_distance_field = true
+
+[sub_resource type="SystemFont" id="SystemFont_sydmf"]
+font_names = PackedStringArray("Impact")
+subpixel_positioning = 3
+multichannel_signed_distance_field = true
 
 [sub_resource type="SystemFont" id="SystemFont_4d2sj"]
 font_names = PackedStringArray("Impact")
 subpixel_positioning = 0
+
+[sub_resource type="SystemFont" id="SystemFont_fm3h3"]
+font_names = PackedStringArray("Impact")
+subpixel_positioning = 3
+multichannel_signed_distance_field = true
 
 [sub_resource type="SystemFont" id="SystemFont_71gpn"]
 font_names = PackedStringArray("Impact")
@@ -25,7 +37,8 @@ subpixel_positioning = 0
 
 [sub_resource type="SystemFont" id="SystemFont_cr61y"]
 font_names = PackedStringArray("Impact")
-subpixel_positioning = 0
+subpixel_positioning = 3
+multichannel_signed_distance_field = true
 
 [node name="Settings_Screen" type="Control"]
 layout_mode = 3
@@ -108,6 +121,7 @@ theme_override_constants/separation = 10
 
 [node name="Sounds" type="CheckButton" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_sydmf")
 button_pressed = true
 
 [node name="Sounds_Label" type="Label" parent="VBoxContainer/Sounds"]
@@ -128,6 +142,7 @@ theme_override_constants/separation = 20
 
 [node name="Music" type="CheckButton" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_fm3h3")
 button_pressed = true
 
 [node name="HSeparator4" type="HSeparator" parent="VBoxContainer/Music"]
